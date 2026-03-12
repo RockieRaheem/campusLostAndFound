@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Campus Lost & Found Tracker Routes
+| These routes handle the main functionality of the application
+|
+*/
+
+// Home page - Display all items
+Route::get('/', [ItemController::class, 'index'])->name('items.index');
+
+// Show form to create new item
+Route::get('/create', [ItemController::class, 'create'])->name('items.create');
+
+// Store new item in database
+Route::post('/store', [ItemController::class, 'store'])->name('items.store');
+
+// Mark item as claimed
+Route::patch('/items/{item}/claim', [ItemController::class, 'claim'])->name('items.claim');
+
+// Delete an item
+Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
+
+// Show single item details
+Route::get('/items/{item}', [ItemController::class, 'show'])->name('items.show');
