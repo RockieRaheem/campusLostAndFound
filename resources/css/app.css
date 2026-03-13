@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -6,6 +6,90 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans:
+        "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --color-primary: #1a355b;
+    --color-bg-soft: #f6f7f8;
+    --color-bg-dark: #13181f;
+}
+
+@layer base {
+    body {
+        @apply bg-bg-soft text-slate-900 antialiased;
+    }
+}
+
+@layer components {
+    .chip-btn {
+        @apply inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50;
+    }
+
+    .chip-btn-active {
+        @apply border-primary bg-primary text-white;
+    }
+
+    .status-badge {
+        @apply inline-flex items-center rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white;
+    }
+
+    .status-lost {
+        @apply bg-amber-500;
+    }
+
+    .status-found {
+        @apply bg-emerald-500;
+    }
+
+    .status-claimed {
+        @apply bg-slate-500;
+    }
+
+    .field-label {
+        @apply text-sm font-semibold text-slate-700;
+    }
+
+    .field-input {
+        @apply w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 shadow-sm transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
+    }
+
+    .btn-primary {
+        @apply inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/20 transition hover:bg-primary/90;
+    }
+
+    .btn-soft {
+        @apply inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50;
+    }
+
+    .btn-danger {
+        @apply inline-flex items-center justify-center rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50;
+    }
+
+    .panel {
+        @apply rounded-xl border border-slate-200 bg-white shadow-sm;
+    }
+
+    .alert-success {
+        @apply rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800;
+    }
+
+    .alert-danger {
+        @apply rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700;
+    }
+
+    .error-message {
+        @apply mt-1 block text-xs font-medium text-red-600;
+    }
+
+    .pagination-wrap nav > div:first-child {
+        @apply hidden;
+    }
+
+    .pagination-wrap nav > div:last-child {
+        @apply flex items-center justify-center;
+    }
+
+    .pagination-wrap svg {
+        @apply h-4 w-4;
+    }
 }

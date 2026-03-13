@@ -1,177 +1,129 @@
 @extends('layouts.app')
 
+@section('title', 'Dashboard | Campus Lost & Found')
+
 @section('content')
-{{-- Search and Filter Section --}}
-<div class="card search-card">
-    <form method="GET" action="{{ route('items.index') }}" class="search-form">
-        <div class="search-row">
-            <div class="search-input-group">
-                <input 
-                    type="text" 
-                    name="search" 
-                    class="form-control search-input" 
-                    placeholder="Search by item name, description, or location..."
-                    value="{{ request('search') }}"
-                >
-                <button type="submit" class="btn btn-primary search-btn">
-                    🔍 Search
-                </button>
-            </div>
-            <div class="filter-buttons">
-                <a href="{{ route('items.index') }}" class="btn btn-filter {{ !request('status') ? 'active' : '' }}">
-                    All
-                </a>
-                <a href="{{ route('items.index', ['status' => 'Lost', 'search' => request('search')]) }}" 
-                   class="btn btn-filter btn-lost {{ request('status') == 'Lost' ? 'active' : '' }}">
-                    🔴 Lost
-                </a>
-                <a href="{{ route('items.index', ['status' => 'Found', 'search' => request('search')]) }}" 
-                   class="btn btn-filter btn-found {{ request('status') == 'Found' ? 'active' : '' }}">
-                    🟢 Found
-                </a>
-                <a href="{{ route('items.index', ['status' => 'Claimed', 'search' => request('search')]) }}" 
-                   class="btn btn-filter btn-claimed {{ request('status') == 'Claimed' ? 'active' : '' }}">
-                    ✅ Claimed
-                </a>
-            </div>
+@php
+    $dashboardStats = $stats ?? [
+        'total' => $allItems->count(),
+        'lost' => $allItems->where('status', 'Lost')->count(),
+        'found' => $allItems->where('status', 'Found')->count(),
+        'claimed' => $allItems->where('status', 'Claimed')->count(),
+    ];
+@endphp
+
+<section class="border-b border-slate-200 bg-white">
+    <div class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <h1 class="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">Campus Lost &amp; Found</h1>
+        <p class="mt-3 max-w-2xl text-slate-600">A centralized hub to track and recover misplaced belongings across campus.</p>
+    </div>
+</section>
+
+<section class="mx-auto -mt-6 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <article class="panel p-5">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Reports</p>
+            <p class="mt-2 text-3xl font-black text-slate-900">{{ $dashboardStats['total'] }}</p>
+        </article>
+        <article class="panel border-l-4 border-l-amber-500 p-5">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Lost</p>
+            <p class="mt-2 text-3xl font-black text-amber-600">{{ $dashboardStats['lost'] }}</p>
+        </article>
+        <article class="panel border-l-4 border-l-emerald-500 p-5">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Found</p>
+            <p class="mt-2 text-3xl font-black text-emerald-600">{{ $dashboardStats['found'] }}</p>
+        </article>
+        <article class="panel border-l-4 border-l-slate-400 p-5">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Claimed</p>
+            <p class="mt-2 text-3xl font-black text-slate-600">{{ $dashboardStats['claimed'] }}</p>
+        </article>
+    </div>
+</section>
+
+<section class="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    @if(session('success'))
+        <div class="alert-success mb-6">{{ session('success') }}</div>
+    @endif
+
+    <form method="GET" action="{{ route('items.index') }}" class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div class="relative w-full max-w-2xl">
+            <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search item name, description, or location"
+                class="field-input pl-11"
+            >
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+            <a href="{{ route('items.index', ['search' => request('search')]) }}" class="chip-btn {{ !request('status') ? 'chip-btn-active' : '' }}">All</a>
+            <a href="{{ route('items.index', ['status' => 'Lost', 'search' => request('search')]) }}" class="chip-btn {{ request('status') === 'Lost' ? 'chip-btn-active' : '' }}">Lost</a>
+            <a href="{{ route('items.index', ['status' => 'Found', 'search' => request('search')]) }}" class="chip-btn {{ request('status') === 'Found' ? 'chip-btn-active' : '' }}">Found</a>
+            <a href="{{ route('items.index', ['status' => 'Claimed', 'search' => request('search')]) }}" class="chip-btn {{ request('status') === 'Claimed' ? 'chip-btn-active' : '' }}">Claimed</a>
+            <button type="submit" class="btn-primary">Apply</button>
+            <a href="{{ route('items.create') }}" class="btn-primary">Report Item</a>
         </div>
     </form>
-</div>
 
-{{-- Statistics Section --}}
-<div class="stats-container">
-    <div class="stat-card stat-lost">
-        <div class="stat-icon">🔴</div>
-        <div class="stat-info">
-            <h3>{{ $allItems->where('status', 'Lost')->count() }}</h3>
-            <p>Lost Items</p>
-        </div>
-    </div>
-    <div class="stat-card stat-found">
-        <div class="stat-icon">🟢</div>
-        <div class="stat-info">
-            <h3>{{ $allItems->where('status', 'Found')->count() }}</h3>
-            <p>Found Items</p>
-        </div>
-    </div>
-    <div class="stat-card stat-claimed">
-        <div class="stat-icon">✅</div>
-        <div class="stat-info">
-            <h3>{{ $allItems->where('status', 'Claimed')->count() }}</h3>
-            <p>Claimed</p>
-        </div>
-    </div>
-    <div class="stat-card stat-total">
-        <div class="stat-icon">📊</div>
-        <div class="stat-info">
-            <h3>{{ $allItems->count() }}</h3>
-            <p>Total Reports</p>
-        </div>
-    </div>
-</div>
-
-{{-- Items List Section --}}
-<div class="card">
-    <div class="card-header">
-        <h2>📋 Reported Items</h2>
-        <a href="{{ route('items.create') }}" class="btn btn-success">
-            + Report New Item
-        </a>
-    </div>
-    
-    @if(session('success'))
-        <div class="alert alert-success">
-            ✓ {{ session('success') }}
-        </div>
-    @endif
-    
-    @if(request('search') || request('status'))
-        <div class="filter-info">
-            Showing 
-            @if(request('status'))
-                <span class="filter-tag">{{ request('status') }}</span>
-            @endif
-            @if(request('search'))
-                items matching "<strong>{{ request('search') }}</strong>"
-            @endif
-            ({{ $items->count() }} results)
-            <a href="{{ route('items.index') }}" class="clear-filters">Clear filters</a>
-        </div>
-    @endif
-    
     @if($items->count() > 0)
-        <div class="items-grid">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             @foreach($items as $item)
-            <div class="item-card">
-                <div class="item-header">
-                    <span class="status-badge 
-                        {{ $item->status == 'Lost' ? 'status-lost' : '' }}
-                        {{ $item->status == 'Found' ? 'status-found' : '' }}
-                        {{ $item->status == 'Claimed' ? 'status-claimed' : '' }}">
-                        {{ $item->status }}
-                    </span>
-                    <span class="item-date">{{ $item->created_at->format('d M Y') }}</span>
-                </div>
-                <h3 class="item-name">{{ $item->item_name }}</h3>
-                <p class="item-description">{{ Str::limit($item->description, 100) }}</p>
-                <div class="item-details">
-                    <div class="detail">
-                        <span class="detail-icon">📍</span>
-                        <span>{{ $item->location }}</span>
-                    </div>
-                    <div class="detail">
-                        <span class="detail-icon">📞</span>
-                        <span>{{ $item->contact }}</span>
-                    </div>
-                    @if($item->status === 'Claimed' && $item->claimed_at)
-                        <div class="detail">
-                            <span class="detail-icon">🗓️</span>
-                            <span>Claimed on {{ $item->claimed_at->format('d M Y') }}</span>
+                <article class="panel overflow-hidden transition hover:-translate-y-1 hover:shadow-lg">
+                    <div class="border-b border-slate-100 bg-slate-50 px-5 py-4">
+                        <div class="flex items-center justify-between">
+                            <span class="status-badge {{ $item->status === 'Lost' ? 'status-lost' : ($item->status === 'Found' ? 'status-found' : 'status-claimed') }}">
+                                {{ $item->status }}
+                            </span>
+                            <span class="text-xs font-medium text-slate-500">{{ $item->created_at->format('M d, Y') }}</span>
                         </div>
-                    @endif
-                </div>
-                <div class="item-actions">
-                    <a href="{{ route('items.show', $item) }}" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
-                        👁️ View
-                    </a>
-                    <a href="{{ route('items.edit', $item) }}" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
-                        ✏️ Edit
-                    </a>
-                    @if($item->status != 'Claimed')
-                        <form action="{{ route('items.claim', $item) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="btn btn-claim" onclick="return confirm('Mark this item as claimed?')">
-                                ✓ Mark Claimed
-                            </button>
-                        </form>
-                    @else
-                        <span class="claimed-text">Item Claimed ✓</span>
-                    @endif
-                    <form action="{{ route('items.destroy', $item) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this item?')">
-                            🗑️ Delete
-                        </button>
-                    </form>
-                </div>
-            </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-xl font-bold text-slate-900">{{ $item->item_name }}</h3>
+                        <p class="mt-2 text-sm text-slate-600">{{ \Illuminate\Support\Str::limit($item->description, 110) }}</p>
+
+                        <div class="mt-4 space-y-2 rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
+                            <p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">location_on</span>{{ $item->location }}</p>
+                            <p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">call</span>{{ $item->contact }}</p>
+                            @if($item->claimed_at)
+                                <p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">calendar_today</span>Claimed {{ $item->claimed_at->format('M d, Y') }}</p>
+                            @endif
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <a href="{{ route('items.show', $item) }}" class="btn-primary">View</a>
+                            <a href="{{ route('items.edit', $item) }}" class="btn-soft">Edit</a>
+                            @if($item->status !== 'Claimed')
+                                <form action="{{ route('items.claim', $item) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn-soft" onclick="return confirm('Mark this item as claimed?')">Mark Claimed</button>
+                                </form>
+                            @endif
+                            <form action="{{ route('items.destroy', $item) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-danger" onclick="return confirm('Delete this item permanently?')">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </article>
             @endforeach
         </div>
+
+        @if(method_exists($items, 'links'))
+            <div class="pagination-wrap mt-8">
+                {{ $items->onEachSide(1)->links() }}
+            </div>
+        @endif
     @else
-        <div class="empty-state">
-            <div class="empty-icon">📭</div>
-            <h3>No items found</h3>
-            <p>
-                @if(request('search') || request('status'))
-                    Try adjusting your search or filter criteria.
-                @else
-                    Be the first to report a lost or found item!
-                @endif
-            </p>
-            <a href="{{ route('items.create') }}" class="btn btn-primary">Report an Item</a>
+        <div class="panel p-12 text-center">
+            <span class="material-symbols-outlined mx-auto text-6xl text-slate-300">search_off</span>
+            <h3 class="mt-4 text-2xl font-bold text-slate-900">No items found</h3>
+            <p class="mt-2 text-slate-500">Try adjusting your search or filters, or report a new item.</p>
+            <a href="{{ route('items.create') }}" class="btn-primary mt-6">Report New Item</a>
         </div>
     @endif
-</div>
+</section>
 @endsection

@@ -31,10 +31,10 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        [$items, $allItems] = $this->itemService->getItemsForDashboard($request);
+        [$items, $stats] = $this->itemService->getItemsForDashboard($request);
         
         // Return the view with items data
-        return view('items.index', compact('items', 'allItems'));
+        return view('items.index', compact('items', 'stats'));
     }
 
     /**

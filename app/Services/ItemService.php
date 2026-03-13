@@ -4,14 +4,15 @@ namespace App\Services;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class ItemService
 {
     /**
      * Build filtered item collection and full collection for dashboard stats.
      *
-     * @return array{0: Collection<int, Item>, 1: Collection<int, Item>}
+     * @return array{0: LengthAwarePaginator<int, Item>, 1: array{total:int,lost:int,found:int,claimed:int}}
      */
     public function getItemsForDashboard(Request $request): array
     {
@@ -30,10 +31,23 @@ class ItemService
             $query->where('status', $request->string('status')->toString());
         }
 
-        $items = $query->orderBy('created_at', 'desc')->get();
-        $allItems = Item::all();
+        $items = $query->orderByDesc('created_at')
+            ->paginate(9)
+            ->withQueryString();
 
-        return [$items, $allItems];
+        $statusCounts = Item::query()
+            ->select('status', DB::raw('COUNT(*) as count'))
+            ->groupBy('status')
+            ->pluck('count', 'status');
+
+        $stats = [
+            'total' => Item::count(),
+            'lost' => (int) ($statusCounts['Lost'] ?? 0),
+            'found' => (int) ($statusCounts['Found'] ?? 0),
+            'claimed' => (int) ($statusCounts['Claimed'] ?? 0),
+        ];
+
+        return [$items, $stats];
     }
 
     /**
