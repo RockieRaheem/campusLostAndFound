@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Models\Item;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ItemService
 {
@@ -16,7 +18,7 @@ class ItemService
      */
     public function getItemsForDashboard(Request $request): array
     {
-        $query = Item::query();
+        $query = Item::query()->with('photos');
 
         if ($request->filled('search')) {
             $searchTerm = $request->string('search')->toString();
@@ -55,7 +57,17 @@ class ItemService
      */
     public function createItem(array $data): Item
     {
-        return Item::create($data);
+        return DB::transaction(function () use ($data): Item {
+            /** @var array<int, UploadedFile> $photos */
+            $photos = $data['photos'] ?? [];
+            unset($data['photos']);
+
+            $item = Item::create($data);
+
+            $this->storePhotosForItem($item, $photos);
+
+            return $item->load('photos');
+        });
     }
 
     /**
@@ -63,15 +75,31 @@ class ItemService
      */
     public function updateItem(Item $item, array $data): bool
     {
-        if (($data['status'] ?? null) === 'Claimed') {
-            $data['claimed_at'] = $item->claimed_at ?? now();
-        }
+        return DB::transaction(function () use ($item, $data): bool {
+            /** @var array<int, UploadedFile> $photos */
+            $photos = $data['photos'] ?? [];
+            $removePhotoIds = $data['remove_photo_ids'] ?? [];
 
-        if (($data['status'] ?? null) !== 'Claimed') {
-            $data['claimed_at'] = null;
-        }
+            unset($data['photos'], $data['remove_photo_ids']);
 
-        return $item->update($data);
+            if (($data['status'] ?? null) === 'Claimed') {
+                $data['claimed_at'] = $item->claimed_at ?? now();
+            }
+
+            if (($data['status'] ?? null) !== 'Claimed') {
+                $data['claimed_at'] = null;
+            }
+
+            $updated = $item->update($data);
+
+            if (!empty($removePhotoIds)) {
+                $this->removePhotosByIds($item, $removePhotoIds);
+            }
+
+            $this->storePhotosForItem($item, $photos);
+
+            return $updated;
+        });
     }
 
     /**
@@ -90,6 +118,54 @@ class ItemService
      */
     public function deleteItem(Item $item): ?bool
     {
+        $item->loadMissing('photos');
+
+        foreach ($item->photos as $photo) {
+            Storage::disk('public')->delete($photo->path);
+        }
+
         return $item->delete();
+    }
+
+    /**
+     * @param array<int, UploadedFile> $photos
+     */
+    private function storePhotosForItem(Item $item, array $photos): void
+    {
+        if (empty($photos)) {
+            return;
+        }
+
+        $nextSortOrder = (int) $item->photos()->max('sort_order') + 1;
+
+        foreach ($photos as $photo) {
+            if (!$photo instanceof UploadedFile) {
+                continue;
+            }
+
+            $storedPath = $photo->store('item-photos', 'public');
+
+            $item->photos()->create([
+                'path' => $storedPath,
+                'sort_order' => $nextSortOrder,
+            ]);
+
+            $nextSortOrder++;
+        }
+    }
+
+    /**
+     * @param array<int, int|string> $photoIds
+     */
+    private function removePhotosByIds(Item $item, array $photoIds): void
+    {
+        $photoIds = array_map('intval', $photoIds);
+
+        $photosToDelete = $item->photos()->whereIn('id', $photoIds)->get();
+
+        foreach ($photosToDelete as $photo) {
+            Storage::disk('public')->delete($photo->path);
+            $photo->delete();
+        }
     }
 }

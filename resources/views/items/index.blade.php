@@ -64,12 +64,24 @@
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             @foreach($items as $item)
                 <article class="panel overflow-hidden transition hover:-translate-y-1 hover:shadow-lg">
-                    <div class="border-b border-slate-100 bg-slate-50 px-5 py-4">
-                        <div class="flex items-center justify-between">
+                    <div class="relative h-48 border-b border-slate-100 bg-slate-100">
+                        @if($item->primary_photo_url)
+                            <img src="{{ $item->primary_photo_url }}" alt="{{ $item->item_name }} photo" class="h-full w-full object-cover">
+                        @else
+                            <div class="flex h-full items-center justify-center text-slate-400">
+                                <span class="material-symbols-outlined text-6xl">inventory_2</span>
+                            </div>
+                        @endif
+                        <div class="absolute right-4 top-4">
                             <span class="status-badge {{ $item->status === 'Lost' ? 'status-lost' : ($item->status === 'Found' ? 'status-found' : 'status-claimed') }}">
                                 {{ $item->status }}
                             </span>
+                        </div>
+                    </div>
+                    <div class="border-b border-slate-100 bg-slate-50 px-5 py-3">
+                        <div class="flex items-center justify-between">
                             <span class="text-xs font-medium text-slate-500">{{ $item->created_at->format('M d, Y') }}</span>
+                            <span class="text-xs font-medium text-slate-500">{{ $item->photos->count() }} photo{{ $item->photos->count() === 1 ? '' : 's' }}</span>
                         </div>
                     </div>
                     <div class="p-5">

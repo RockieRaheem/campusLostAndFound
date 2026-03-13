@@ -27,6 +27,8 @@ class StoreItemRequest extends FormRequest
             'location' => 'required|string|max:255',
             'status' => 'required|in:Lost,Found',
             'contact' => 'required|string|max:255',
+            'photos' => 'nullable|array|max:3',
+            'photos.*' => 'image|mimes:jpeg,jpg,png,webp|max:10240',
         ];
     }
 
@@ -40,6 +42,10 @@ class StoreItemRequest extends FormRequest
         return [
             'description.min' => 'Description should be at least 10 characters.',
             'status.in' => 'Status must be Lost or Found when creating a report.',
+            'photos.max' => 'You can upload up to 3 photos per item report.',
+            'photos.*.image' => 'Each uploaded file must be an image.',
+            'photos.*.mimes' => 'Photos must be JPEG, JPG, PNG, or WEBP.',
+            'photos.*.max' => 'Each photo must be smaller than 10MB.',
         ];
     }
 }

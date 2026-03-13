@@ -74,6 +74,8 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        $item->load('photos');
+
         return view('items.edit', compact('item'));
     }
 
@@ -131,6 +133,8 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
+        $item->load('photos');
+
         return view('items.show', compact('item'));
     }
 }

@@ -24,7 +24,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('items.update', $item) }}" class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <form method="POST" action="{{ route('items.update', $item) }}" enctype="multipart/form-data" class="grid grid-cols-1 gap-8 lg:grid-cols-3">
         @csrf
         @method('PUT')
 
@@ -68,15 +68,34 @@
 
             <section class="panel p-6">
                 <h2 class="text-lg font-bold text-slate-900">Photos</h2>
-                <div class="mt-4 flex flex-wrap gap-4">
-                    <div class="flex h-28 w-28 items-center justify-center rounded-lg border border-slate-200 bg-slate-100">
-                        <span class="material-symbols-outlined text-slate-400">image</span>
-                    </div>
-                    <button type="button" class="flex h-28 w-28 flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 text-slate-500">
-                        <span class="material-symbols-outlined">add_a_photo</span>
-                        <span class="mt-1 text-xs font-medium">Add Photo</span>
-                    </button>
+                <div class="mt-4 space-y-4">
+                    <input type="file" name="photos[]" accept="image/png,image/jpeg,image/jpg,image/webp" multiple class="field-input" />
+
+                    @if($item->photos->count() > 0)
+                        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                            @foreach($item->photos as $photo)
+                                <label class="relative overflow-hidden rounded-lg border border-slate-200 bg-white">
+                                    <img src="{{ $photo->url }}" alt="Item photo {{ $loop->iteration }}" class="h-28 w-full object-cover" />
+                                    <span class="absolute right-2 top-2 rounded bg-white/90 px-2 py-1 text-[10px] font-semibold text-slate-700">Remove</span>
+                                    <input type="checkbox" name="remove_photo_ids[]" value="{{ $photo->id }}" class="absolute right-2 top-2 h-4 w-4 opacity-0" {{ in_array($photo->id, array_map('intval', old('remove_photo_ids', [])), true) ? 'checked' : '' }}>
+                                </label>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="flex h-28 items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 text-sm text-slate-500">
+                            No photos uploaded yet.
+                        </div>
+                    @endif
                 </div>
+                @error('photos')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
+                @error('photos.*')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
+                @error('remove_photo_ids')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
             </section>
         </div>
 

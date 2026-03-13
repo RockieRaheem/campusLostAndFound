@@ -21,7 +21,7 @@
     @endif
 
     <div class="panel overflow-hidden">
-        <form method="POST" action="{{ route('items.store') }}" class="space-y-8 p-6 sm:p-10">
+        <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data" class="space-y-8 p-6 sm:p-10">
             @csrf
 
             <div>
@@ -70,17 +70,24 @@
                         <div class="sm:col-span-3 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8">
                             <div class="flex flex-col items-center justify-center text-center">
                                 <span class="material-symbols-outlined mb-2 text-3xl text-primary">add_a_photo</span>
-                                <p class="text-sm font-semibold text-slate-700">Photo upload ready for next phase</p>
-                                <p class="mt-1 text-xs text-slate-500">UI matches stitch design; backend file upload can be enabled next.</p>
+                                <p class="text-sm font-semibold text-slate-700">Upload up to 3 photos</p>
+                                <p class="mt-1 text-xs text-slate-500">PNG, JPG, JPEG, WEBP up to 10MB each.</p>
+                                <input type="file" name="photos[]" accept="image/png,image/jpeg,image/jpg,image/webp" multiple class="field-input mt-4" />
                             </div>
                         </div>
                         <div class="rounded-xl border border-slate-200 bg-white p-3 text-center">
                             <div class="flex aspect-square items-center justify-center rounded-lg bg-slate-100">
                                 <span class="material-symbols-outlined text-slate-400">image</span>
                             </div>
-                            <p class="mt-2 text-[11px] text-slate-500">0/3 Photos</p>
+                            <p class="mt-2 text-[11px] text-slate-500">{{ count(old('photos', [])) }}/3 Photos</p>
                         </div>
                     </div>
+                    @error('photos')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                    @error('photos.*')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div>

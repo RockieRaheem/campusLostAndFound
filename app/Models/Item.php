@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Item Model
@@ -51,4 +52,16 @@ class Item extends Model
     protected $casts = [
         'claimed_at' => 'datetime',
     ];
+
+    public function photos(): HasMany
+    {
+        return $this->hasMany(ItemPhoto::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function getPrimaryPhotoUrlAttribute(): ?string
+    {
+        $firstPhoto = $this->photos->first();
+
+        return $firstPhoto?->url;
+    }
 }

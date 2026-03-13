@@ -13,9 +13,21 @@
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <aside class="lg:col-span-4">
             <div class="panel sticky top-24 p-4">
-                <div class="flex aspect-square items-center justify-center rounded-lg bg-slate-100">
-                    <span class="material-symbols-outlined text-7xl text-slate-300">inventory_2</span>
-                </div>
+                @if($item->primary_photo_url)
+                    <img src="{{ $item->primary_photo_url }}" alt="{{ $item->item_name }}" class="aspect-square w-full rounded-lg object-cover" />
+                @else
+                    <div class="flex aspect-square items-center justify-center rounded-lg bg-slate-100">
+                        <span class="material-symbols-outlined text-7xl text-slate-300">inventory_2</span>
+                    </div>
+                @endif
+
+                @if($item->photos->count() > 1)
+                    <div class="mt-3 grid grid-cols-4 gap-2">
+                        @foreach($item->photos as $photo)
+                            <img src="{{ $photo->url }}" alt="{{ $item->item_name }} photo {{ $loop->iteration }}" class="h-14 w-full rounded-md object-cover" />
+                        @endforeach
+                    </div>
+                @endif
                 <div class="mt-4 space-y-2">
                     @if($item->status !== 'Claimed')
                         <form action="{{ route('items.claim', $item) }}" method="POST">
