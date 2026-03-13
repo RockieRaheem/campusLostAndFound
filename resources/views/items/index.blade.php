@@ -131,6 +131,9 @@
                     @endif
                 </div>
                 <div class="item-actions">
+                    <a href="{{ route('items.show', $item) }}" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
+                        👁️ View
+                    </a>
                     <a href="{{ route('items.edit', $item) }}" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
                         ✏️ Edit
                     </a>
