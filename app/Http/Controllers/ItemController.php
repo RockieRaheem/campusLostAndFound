@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use App\Services\ItemService;
 
 /**
  * ItemController
@@ -15,6 +16,10 @@ use App\Http\Requests\UpdateItemRequest;
  */
 class ItemController extends Controller
 {
+    public function __construct(private ItemService $itemService)
+    {
+    }
+
     /**
      * Display a listing of all items with search and filter.
      * 
@@ -26,29 +31,7 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        // Start with base query
-        $query = Item::query();
-        
-        // Apply search filter if provided
-        if ($request->has('search') && $request->search != '') {
-            $searchTerm = $request->search;
-            $query->where(function($q) use ($searchTerm) {
-                $q->where('item_name', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('description', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('location', 'LIKE', "%{$searchTerm}%");
-            });
-        }
-        
-        // Apply status filter if provided
-        if ($request->has('status') && $request->status != '') {
-            $query->where('status', $request->status);
-        }
-        
-        // Get filtered items, ordered by most recent first
-        $items = $query->orderBy('created_at', 'desc')->get();
-        
-        // Get all items for statistics (unfiltered)
-        $allItems = Item::all();
+        [$items, $allItems] = $this->itemService->getItemsForDashboard($request);
         
         // Return the view with items data
         return view('items.index', compact('items', 'allItems'));
@@ -76,7 +59,7 @@ class ItemController extends Controller
     public function store(StoreItemRequest $request)
     {
         // Create new item using mass assignment (protected by $fillable in Model)
-        Item::create($request->validated());
+        $this->itemService->createItem($request->validated());
 
         // Redirect back to the items list with success message
         return redirect()->route('items.index')
@@ -103,7 +86,7 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
-        $item->update($request->validated());
+        $this->itemService->updateItem($item, $request->validated());
 
         return redirect()->route('items.index')
             ->with('success', 'Item updated successfully!');
@@ -120,8 +103,7 @@ class ItemController extends Controller
      */
     public function claim(Item $item)
     {
-        $item->status = 'Claimed';
-        $item->save();
+        $this->itemService->markItemClaimed($item);
 
         return redirect()->route('items.index')
             ->with('success', 'Item has been marked as claimed!');
@@ -135,7 +117,7 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        $item->delete();
+        $this->itemService->deleteItem($item);
 
         return redirect()->route('items.index')
             ->with('success', 'Item has been deleted successfully!');
