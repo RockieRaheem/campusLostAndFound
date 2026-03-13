@@ -10,14 +10,22 @@
 ## Description
 The Campus Lost & Found Tracker is a simple Laravel web application that allows university students to report lost or found items. The system stores the data in a MySQL database and displays all submitted records in a structured table format.
 
+## Test 2 Improvement Summary
+This version improves the Test 1 system by introducing edit/update functionality, a detailed item view page, reusable validation classes, and a service layer for cleaner business logic.
+
 ## Features
 - Report lost or found items
 - View all reported items with search and filter
 - Search items by name, description, or location
 - Filter items by status (Lost, Found, Claimed)
 - Mark items as "Claimed" when recovered
+- View single item details on a dedicated page
+- Edit and update existing item reports
 - Delete items from the system
 - Input validation on all forms
+- Reusable validation with FormRequest classes
+- Service layer for item business logic
+- Database status tracking with claimed timestamp (`claimed_at`)
 - Store and retrieve data from database
 - Modern responsive design with card-based layout
 - Real-time statistics dashboard
@@ -76,6 +84,12 @@ php artisan key:generate
 php artisan migrate
 ```
 
+### Step 7b: Confirm New Test 2 Migration
+Run the command below to verify the claimed timestamp migration is applied:
+```
+php artisan migrate:status
+```
+
 ### Step 8: Start the Server
 ```
 php artisan serve
@@ -121,6 +135,12 @@ Encapsulation is implemented using the `$fillable` property in the model. This p
 
 ### 3. Reusability
 The controller methods are reusable. The `store()` method handles saving data while the `index()` method retrieves and displays data.
+
+### 4. Service Layer
+The `ItemService` class centralizes item business logic (search/filter, create, update, claim, delete) to keep controllers focused on request handling.
+
+### 5. FormRequest Validation
+`StoreItemRequest` and `UpdateItemRequest` encapsulate validation logic in reusable request classes instead of repeating rules inside the controller.
 
 ## Submission Instructions (IMPORTANT)
 
