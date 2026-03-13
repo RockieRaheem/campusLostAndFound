@@ -1,0 +1,39 @@
+TEST 2 SCREENSHOT GUIDE (MINIMUM 8)
+
+Create folder: Screenshots
+Use PNG or JPG format.
+
+Required screenshot checklist:
+
+1. Screen1_Dashboard.png
+- Show updated dashboard with statistics cards and search/filter bar.
+
+2. Screen2_SearchFilter.png
+- Show active search term and status filter results.
+
+3. Screen3_CreateForm.png
+- Show updated create form with validation-friendly labels.
+
+4. Screen4_EditForm.png
+- Show edit page with existing item data loaded.
+
+5. Screen5_ItemDetails.png
+- Show dedicated item details page.
+
+6. Screen6_StatusClaimed.png
+- Show item marked as Claimed with claimed date visible.
+
+7. Screen7_DatabaseMigration.png
+- Show `php artisan migrate:status` including add_claimed_at migration.
+
+8. Screen8_CodeEvidence_ControllerService.png
+- Show ItemController and ItemService side by side or separate captures.
+
+Optional bonus screenshots:
+- Screen9_FormRequestValidation.png (StoreItemRequest / UpdateItemRequest)
+- Screen10_ModelClaimedAt.png (Item model fillable + casts)
+
+Tips:
+- Ensure sample data is visible.
+- Include browser URL where possible.
+- Make text and code readable.
