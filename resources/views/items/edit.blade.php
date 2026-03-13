@@ -68,8 +68,18 @@
 
             <section class="panel p-6">
                 <h2 class="text-lg font-bold text-slate-900">Photos</h2>
-                <div class="mt-4 space-y-4">
-                    <input type="file" name="photos[]" accept="image/png,image/jpeg,image/jpg,image/webp" multiple class="field-input" />
+                <div data-photo-uploader data-max-photos="3" data-existing-count="{{ $item->photos->count() }}" class="mt-4 space-y-4">
+                    <div data-dropzone class="cursor-pointer rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-5 transition hover:border-primary/40 hover:bg-primary/5">
+                        <p class="text-sm font-semibold text-slate-700">Drop photos here or click to choose</p>
+                        <p class="mt-1 text-xs text-slate-500">You can keep existing photos, remove selected ones, and add new images.</p>
+                        <input data-photo-input type="file" name="photos[]" accept="image/png,image/jpeg,image/jpg,image/webp" multiple class="field-input mt-3" />
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+                        Existing kept: <span data-existing-kept>{{ $item->photos->count() }}</span>, New selected: <span data-photo-count>0</span>, Total after save: <span data-total-count>{{ $item->photos->count() }}</span>/3
+                    </div>
+
+                    <div data-preview-grid class="grid grid-cols-2 gap-3 sm:grid-cols-3"></div>
 
                     @if($item->photos->count() > 0)
                         <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -77,7 +87,7 @@
                                 <label class="relative overflow-hidden rounded-lg border border-slate-200 bg-white">
                                     <img src="{{ $photo->url }}" alt="Item photo {{ $loop->iteration }}" class="h-28 w-full object-cover" />
                                     <span class="absolute right-2 top-2 rounded bg-white/90 px-2 py-1 text-[10px] font-semibold text-slate-700">Remove</span>
-                                    <input type="checkbox" name="remove_photo_ids[]" value="{{ $photo->id }}" class="absolute right-2 top-2 h-4 w-4 opacity-0" {{ in_array($photo->id, array_map('intval', old('remove_photo_ids', [])), true) ? 'checked' : '' }}>
+                                    <input data-remove-existing-photo type="checkbox" name="remove_photo_ids[]" value="{{ $photo->id }}" class="absolute right-2 top-2 h-4 w-4" {{ in_array($photo->id, array_map('intval', old('remove_photo_ids', [])), true) ? 'checked' : '' }}>
                                 </label>
                             @endforeach
                         </div>

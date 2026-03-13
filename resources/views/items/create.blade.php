@@ -66,20 +66,22 @@
 
                 <div>
                     <label class="field-label">Item Photos</label>
-                    <div class="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-4">
-                        <div class="sm:col-span-3 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8">
+                    <div data-photo-uploader data-max-photos="3" data-existing-count="0" class="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-4">
+                        <div data-dropzone class="sm:col-span-3 cursor-pointer rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 transition hover:border-primary/40 hover:bg-primary/5">
                             <div class="flex flex-col items-center justify-center text-center">
                                 <span class="material-symbols-outlined mb-2 text-3xl text-primary">add_a_photo</span>
                                 <p class="text-sm font-semibold text-slate-700">Upload up to 3 photos</p>
                                 <p class="mt-1 text-xs text-slate-500">PNG, JPG, JPEG, WEBP up to 10MB each.</p>
-                                <input type="file" name="photos[]" accept="image/png,image/jpeg,image/jpg,image/webp" multiple class="field-input mt-4" />
+                                <input data-photo-input type="file" name="photos[]" accept="image/png,image/jpeg,image/jpg,image/webp" multiple class="field-input mt-4" />
                             </div>
                         </div>
                         <div class="rounded-xl border border-slate-200 bg-white p-3 text-center">
-                            <div class="flex aspect-square items-center justify-center rounded-lg bg-slate-100">
-                                <span class="material-symbols-outlined text-slate-400">image</span>
+                            <div data-preview-grid class="grid aspect-square grid-cols-2 gap-2 overflow-auto rounded-lg bg-slate-100 p-2">
+                                <div data-empty-preview class="col-span-2 flex h-full min-h-20 items-center justify-center rounded-md bg-white/70 text-slate-400">
+                                    <span class="material-symbols-outlined">image</span>
+                                </div>
                             </div>
-                            <p class="mt-2 text-[11px] text-slate-500">{{ count(old('photos', [])) }}/3 Photos</p>
+                            <p class="mt-2 text-[11px] text-slate-500"><span data-photo-count>0</span>/3 Photos</p>
                         </div>
                     </div>
                     @error('photos')
