@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\UpdateItemRequest;
 
 /**
  * ItemController
@@ -71,19 +73,10 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'item_name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'location' => 'required|string|max:255',
-            'status' => 'required|in:Lost,Found',
-            'contact' => 'required|string|max:255'
-        ]);
-
         // Create new item using mass assignment (protected by $fillable in Model)
-        Item::create($request->all());
+        Item::create($request->validated());
 
         // Redirect back to the items list with success message
         return redirect()->route('items.index')
@@ -108,17 +101,9 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Item $item)
+    public function update(UpdateItemRequest $request, Item $item)
     {
-        $request->validate([
-            'item_name' => 'required|string|max:255',
-            'description' => 'required|string|min:10',
-            'location' => 'required|string|max:255',
-            'status' => 'required|in:Lost,Found,Claimed',
-            'contact' => 'required|string|max:255'
-        ]);
-
-        $item->update($request->all());
+        $item->update($request->validated());
 
         return redirect()->route('items.index')
             ->with('success', 'Item updated successfully!');
