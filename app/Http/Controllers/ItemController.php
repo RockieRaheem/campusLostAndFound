@@ -91,6 +91,40 @@ class ItemController extends Controller
     }
 
     /**
+     * Show the form for editing the specified item.
+     *
+     * @param  \App\Models\Item  $item
+     * @return \Illuminate\View\View
+     */
+    public function edit(Item $item)
+    {
+        return view('items.edit', compact('item'));
+    }
+
+    /**
+     * Update the specified item in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Item  $item
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, Item $item)
+    {
+        $request->validate([
+            'item_name' => 'required|string|max:255',
+            'description' => 'required|string|min:10',
+            'location' => 'required|string|max:255',
+            'status' => 'required|in:Lost,Found,Claimed',
+            'contact' => 'required|string|max:255'
+        ]);
+
+        $item->update($request->all());
+
+        return redirect()->route('items.index')
+            ->with('success', 'Item updated successfully!');
+    }
+
+    /**
      * Mark an item as claimed.
      * 
      * This updates the item status to 'Claimed' indicating

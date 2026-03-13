@@ -125,6 +125,9 @@
                     </div>
                 </div>
                 <div class="item-actions">
+                    <a href="{{ route('items.edit', $item) }}" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
+                        ✏️ Edit
+                    </a>
                     @if($item->status != 'Claimed')
                         <form action="{{ route('items.claim', $item) }}" method="POST" style="display: inline;">
                             @csrf

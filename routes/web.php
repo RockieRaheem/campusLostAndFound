@@ -22,6 +22,12 @@ Route::get('/create', [ItemController::class, 'create'])->name('items.create');
 // Store new item in database
 Route::post('/store', [ItemController::class, 'store'])->name('items.store');
 
+// Show form to edit an item
+Route::get('/items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
+
+// Update an existing item
+Route::put('/items/{item}', [ItemController::class, 'update'])->name('items.update');
+
 // Mark item as claimed
 Route::patch('/items/{item}/claim', [ItemController::class, 'claim'])->name('items.claim');
 
