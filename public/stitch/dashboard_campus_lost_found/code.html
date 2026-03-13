@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Campus Lost &amp; Found Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1a355b",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#13181f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex min-h-screen flex-col">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex h-16 items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-xl bg-primary text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">travel_explore</span>
+</div>
+<h1 class="text-xl font-extrabold tracking-tight text-primary dark:text-slate-100 hidden sm:block">Campus Finder</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="#">Dashboard</a>
+<a class="text-sm font-medium text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-slate-100 transition-colors" href="#">Reports</a>
+<a class="text-sm font-medium text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-slate-100 transition-colors" href="#">Help</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg text-sm font-bold transition-all shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-sm">add_circle</span>
+<span>Report Found Item</span>
+</button>
+<div class="size-10 rounded-full border-2 border-slate-200 dark:border-slate-700 bg-cover bg-center overflow-hidden" data-alt="User profile avatar portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjTM50cs4_zilTGLzH_1KJW8QvLmra-t5GK4eu7ta7QMCumBGO39nn2dTIITp8JmfQ1k2FQEhirecL_b6F7Kb1XnAwKzPt4HlqW7K8IkvtMbGlC4dXsFdS-DVMKPF9qnLwFcjEBP7C09BdWn2oxhSYt-tT8VmshdiFK3I0Uh4LLjdNs_fbGA8SX-_mpCcUFAgwx7SebCpW9_yEOHZ7hIlh6ymHrUMAYGQX5omRQMmbApDI7SOEBHdclXRB2lOzrVfoyXTgTv03kRzR')">
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1">
+<!-- Hero Section -->
+<section class="relative py-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800">
+<div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style="background-image: radial-gradient(#1a355b 1px, transparent 1px); background-size: 24px 24px;"></div>
+<div class="max-w-7xl mx-auto relative">
+<div class="max-w-2xl">
+<h2 class="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white leading-[1.1] tracking-tight mb-4">
+                            Campus Lost &amp; Found
+                        </h2>
+<p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                            A centralized hub to track and recover misplaced belongings across the university campus. Search through reported items or log a new discovery.
+                        </p>
+</div>
+</div>
+</section>
+<!-- Stats Bar -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 flex flex-col gap-1">
+<span class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Total Reports</span>
+<div class="flex items-center justify-between">
+<span class="text-3xl font-black text-slate-900 dark:text-white">1,284</span>
+<span class="material-symbols-outlined text-primary/40">analytics</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl shadow-slate-200/50 dark:shadow-none border-l-4 border-l-amber-500 border border-slate-100 dark:border-slate-700 flex flex-col gap-1">
+<span class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Lost Items</span>
+<div class="flex items-center justify-between">
+<span class="text-3xl font-black text-amber-600">456</span>
+<span class="material-symbols-outlined text-amber-500/40">error</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl shadow-slate-200/50 dark:shadow-none border-l-4 border-l-emerald-500 border border-slate-100 dark:border-slate-700 flex flex-col gap-1">
+<span class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Found Items</span>
+<div class="flex items-center justify-between">
+<span class="text-3xl font-black text-emerald-600">612</span>
+<span class="material-symbols-outlined text-emerald-500/40">check_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl shadow-slate-200/50 dark:shadow-none border-l-4 border-l-slate-400 border border-slate-100 dark:border-slate-700 flex flex-col gap-1">
+<span class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Claimed</span>
+<div class="flex items-center justify-between">
+<span class="text-3xl font-black text-slate-500">216</span>
+<span class="material-symbols-outlined text-slate-400/40">handshake</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Search & Filter Row -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="relative flex-1 max-w-2xl">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">search</span>
+</div>
+<input class="block w-full pl-11 pr-12 py-4 bg-white dark:bg-slate-800 border-none rounded-xl shadow-sm focus:ring-2 focus:ring-primary dark:text-white placeholder-slate-400" placeholder="Search for lost keys, laptops, or water bottles..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-4 flex items-center">
+<button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded transition-colors">
+<span class="material-symbols-outlined text-slate-400">tune</span>
+</button>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<button class="px-5 py-2 rounded-full bg-primary text-white text-sm font-semibold shadow-md shadow-primary/20">All</button>
+<button class="px-5 py-2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-100 dark:border-slate-700">Lost</button>
+<button class="px-5 py-2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-100 dark:border-slate-700">Found</button>
+<button class="px-5 py-2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-100 dark:border-slate-700">Claimed</button>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+<!-- Item Card 1 -->
+<div class="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+<div class="h-48 bg-slate-100 dark:bg-slate-700 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern MacBook Pro laptop on a desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMp5xoGwC9oSuIHbhoV3YXR9hLlqMGh1Q2cY3Vgwj10yXn_XdPwEbzkS8xrjTbR2swHXNIVTtbLYd0JjgzJg187q_gRH4IfLhPr6XPyfdsytCjdEg7XOUe-OC30RTokMCIbtAyqkkQzpcVtc7XBDzf_br-FSSwisAp1sLCfjyw0KqqquFl7KxLIwHp6Eap-RST2rax_BIFV6qtrryYuJ131Da96t35a5RCXaLfrxrS1PB7VjjYJrWUF49X7lvAUmCPsCCorW5C0Oz9"/>
+<div class="absolute top-4 right-4">
+<span class="px-3 py-1 rounded-full bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Found</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex flex-col gap-1 mb-4">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">MacBook Pro 14"</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">Left on table near the coffee machine in Library room 302.</p>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Main Library, 3rd Floor</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>Oct 12, 2023</span>
+</div>
+</div>
+<div class="flex items-center gap-2 pt-4 border-t border-slate-50 dark:border-slate-700">
+<button class="flex-1 py-2 rounded-lg bg-primary text-white text-xs font-bold hover:bg-primary/90 transition-colors">View Details</button>
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item Card 2 -->
+<div class="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+<div class="h-48 bg-slate-100 dark:bg-slate-700 flex items-center justify-center relative">
+<span class="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-600">key</span>
+<div class="absolute top-4 right-4">
+<span class="px-3 py-1 rounded-full bg-amber-500 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Lost</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex flex-col gap-1 mb-4">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Car Keys (Toyota)</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">Blue lanyard with a small metal whistle attached.</p>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Student Union Cafeteria</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>Oct 11, 2023</span>
+</div>
+</div>
+<div class="flex items-center gap-2 pt-4 border-t border-slate-50 dark:border-slate-700">
+<button class="flex-1 py-2 rounded-lg bg-primary text-white text-xs font-bold hover:bg-primary/90 transition-colors">View Details</button>
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item Card 3 -->
+<div class="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+<div class="h-48 bg-slate-100 dark:bg-slate-700 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Over-ear wireless headphones lying on a wooden surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_RPcU6yh8qODY6XZ6RPqBfwnr8MlllQIXo2aKGazkhSt-f2PTgDDoDSyrGC-2UHg3IySPqM9KqXVYW_7mD3oIVQl3XYKIgBdH9bkQ4tC6J5V8duJQqlMcIW0B-ZCHhmG2T20FOkj7jsmtKKRRYOmSp37TwqhAbW3YYMZ5DWkMpQ7Ct5c3XXJ61T_z_t-9Dj-q61kQWyZJF1fNaElNq-zKvHzyqpR3B6oOQH235GvR504PypwRScvhggt17QwaM_aY3jGPM7y3avIO"/>
+<div class="absolute top-4 right-4">
+<span class="px-3 py-1 rounded-full bg-slate-400 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Claimed</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex flex-col gap-1 mb-4">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Sony Headphones</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">Black WH-1000XM4 model in a grey hard case.</p>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Science Building, Lab 4</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>Oct 09, 2023</span>
+</div>
+</div>
+<div class="flex items-center gap-2 pt-4 border-t border-slate-50 dark:border-slate-700">
+<button class="flex-1 py-2 rounded-lg bg-primary text-white text-xs font-bold hover:bg-primary/90 transition-colors">View Details</button>
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State -->
+<div class="mt-20 flex flex-col items-center justify-center text-center p-12 bg-white dark:bg-slate-800/50 rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-700 hidden">
+<div class="size-24 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-5xl text-slate-300">search_off</span>
+</div>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">No items matching your search</h3>
+<p class="text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
+                        Try adjusting your filters or search terms. If you've lost something recently, check back later as new items are added daily.
+                    </p>
+<button class="mt-8 px-6 py-2.5 bg-primary text-white font-bold rounded-lg hover:shadow-lg transition-all">Clear All Filters</button>
+</div>
+<!-- Pagination Placeholder -->
+<div class="mt-12 flex justify-center">
+<nav class="flex items-center gap-1">
+<button class="p-2 rounded-lg hover:bg-white dark:hover:bg-slate-800 text-slate-400 transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="size-10 rounded-lg bg-primary text-white font-bold text-sm">1</button>
+<button class="size-10 rounded-lg hover:bg-white dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-sm transition-colors">2</button>
+<button class="size-10 rounded-lg hover:bg-white dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-sm transition-colors">3</button>
+<span class="px-2 text-slate-400">...</span>
+<button class="size-10 rounded-lg hover:bg-white dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-sm transition-colors">12</button>
+<button class="p-2 rounded-lg hover:bg-white dark:hover:bg-slate-800 text-slate-400 transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</div>
+</section>
+</main>
+<footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+<p class="text-slate-500 dark:text-slate-400 text-sm">© 2023 University Campus Services. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">shield_person</span></a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">gavel</span></a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1a355b",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#13181f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>Item Details | Campus Lost &amp; Found</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 lg:px-40 py-3 shadow-sm">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">inventory_2</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">Campus Tracker</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary py-1" href="#">Items</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Reports</a>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/20" data-alt="User profile avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8BDpBynViFaRATxBMplIBPpqNl6bV8emvZN4mevzNvT00MGiyBaoPkP7OK5NgJ3eQo1h7VzUsJIupjELIj8P0Oeovpt5Vi9gRfdAbexrVA3R6Ghb4EfgtUbvLT9JYckx2AgmFNawMAuTzY4w5_eS5Qdrm4wpp4ztziU5eoNsA4zVBgdl3WZov62uIT7ZEws3qf6BBwB5I4jogUFwXmry8vRDP1yEyl5cSNIzW3PWtNOX11jheR69DnDEIWaDcU6DkJIOK0MWucKgF");'></div>
+</div>
+</header>
+<main class="flex-1 px-4 md:px-10 lg:px-40 py-8">
+<div class="max-w-[1100px] mx-auto">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-8 text-sm font-medium">
+<a class="text-slate-500 hover:text-primary" href="#">Inventory</a>
+<span class="material-symbols-outlined text-xs text-slate-400">chevron_right</span>
+<span class="text-primary bg-primary/5 px-2 py-0.5 rounded">#LF-1024</span>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Item Image -->
+<div class="lg:col-span-4">
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm sticky top-8">
+<div class="aspect-square bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center overflow-hidden mb-4">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover" data-alt="Silver MacBook Pro 14 inch on a table" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7pRA0nd5lnDjXTv5ls1bW934ypfX1w_OvVTT7hlXZ__ZuvWK9HDYJlns8-qQTbxRxxeCyTk50qQzI3-83BlYXuQF3-cCcM8dtwK5v7Ae2otfnnKdHvLGWejdHiKbTwm8KISGAOSm9yv_OktwaK-fuQ8WzOa1_A6HUnYZdCGC--ZAP0LPnGZzG5DqX0cJJySX8lYbigTCZ-UyLJyQG4PJU4aSjX7WMbmnod-h_73jwVr5PTW-9UX2cYKjAgMXRs0CFrcL558qXolIs");'></div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-white font-semibold py-3 px-4 rounded-lg hover:bg-opacity-90 transition-all">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+                                        Mark as Claimed
+                                    </button>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium py-2 px-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+<span class="material-symbols-outlined text-lg">edit</span>
+                                            Edit
+                                        </button>
+<button class="flex items-center justify-center gap-2 border border-red-200 text-red-600 font-medium py-2 px-3 rounded-lg hover:bg-red-50 transition-all">
+<span class="material-symbols-outlined text-lg">delete</span>
+                                            Delete
+                                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Details -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Header Section -->
+<div class="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3 flex-wrap">
+<h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white">MacBook Pro 14" (Silver)</h1>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800 uppercase tracking-wider">
+                                                Found
+                                            </span>
+</div>
+<p class="text-slate-500 font-medium">Record ID: <span class="text-slate-700 dark:text-slate-300">#LF-1024</span></p>
+</div>
+<button class="flex items-center gap-2 text-primary hover:underline text-sm font-semibold">
+<span class="material-symbols-outlined text-lg">share</span>
+                                        Share Report
+                                    </button>
+</div>
+<div class="mt-8 border-t border-slate-100 dark:border-slate-800 pt-6">
+<h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Occurrence Details</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col gap-1">
+<span class="flex items-center gap-1.5 text-slate-500 text-sm">
+<span class="material-symbols-outlined text-base">location_on</span> Location
+                                            </span>
+<span class="font-semibold text-slate-800 dark:text-slate-200">Main Library - 3rd Floor</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="flex items-center gap-1.5 text-slate-500 text-sm">
+<span class="material-symbols-outlined text-base">calendar_today</span> Date
+                                            </span>
+<span class="font-semibold text-slate-800 dark:text-slate-200">October 24, 2023</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="flex items-center gap-1.5 text-slate-500 text-sm">
+<span class="material-symbols-outlined text-base">person</span> Reported By
+                                            </span>
+<span class="font-semibold text-slate-800 dark:text-slate-200">John Doe (Staff)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Description Section -->
+<div class="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Item Description</h3>
+<div class="prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 leading-relaxed">
+<p>Found on a study desk in the quiet zone of the 3rd floor. The laptop is a 2021 Silver MacBook Pro 14-inch model. It was found inside a grey felt laptop sleeve. No visible external damage or stickers. The device was powered off when found.</p>
+<p class="mt-4">Distinctive features: Includes a USB-C to HDMI adapter plugged into the left side port. The felt sleeve has a small ink stain on the bottom left corner.</p>
+</div>
+</div>
+<!-- Contact Details (Sensitive Area) -->
+<div class="bg-primary/5 dark:bg-primary/10 p-6 md:p-8 rounded-xl border-2 border-primary/20 shadow-sm">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">lock</span>
+<h3 class="text-sm font-bold text-primary uppercase tracking-widest">Authorized Contact Details</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-white/50 dark:bg-slate-800/50 p-4 rounded-lg border border-primary/10">
+<p class="text-xs text-slate-500 font-medium mb-1">Assigned Handler</p>
+<p class="font-bold text-slate-800 dark:text-slate-100">Sarah Jenkins</p>
+<p class="text-sm text-slate-600 dark:text-slate-400">Security Office, Suite 201</p>
+</div>
+<div class="bg-white/50 dark:bg-slate-800/50 p-4 rounded-lg border border-primary/10">
+<p class="text-xs text-slate-500 font-medium mb-1">Direct Contact</p>
+<p class="font-bold text-primary">(555) 012-3456</p>
+<p class="text-sm text-slate-600 dark:text-slate-400">s.jenkins@campus-security.edu</p>
+</div>
+</div>
+<p class="mt-4 text-xs text-slate-500 italic">This information is only visible to staff and verified administrators.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-12 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 lg:px-40 py-10">
+<div class="max-w-[1100px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-3 opacity-60">
+<span class="material-symbols-outlined text-primary">inventory_2</span>
+<span class="text-sm font-semibold">Campus Lost &amp; Found Tracker © 2024</span>
+</div>
+<div class="flex gap-8 text-sm font-medium text-slate-500">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Help Center</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

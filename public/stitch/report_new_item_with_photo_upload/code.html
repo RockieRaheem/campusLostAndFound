@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1a355b",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#13181f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>Report Item - Campus Lost &amp; Found</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full border-b border-primary/10 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex h-16 items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined">school</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight text-primary dark:text-slate-100">Campus Tracker</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-[1px] bg-primary/10"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold leading-none">Alex Rivera</p>
+<p class="text-xs text-slate-500 mt-1">ID: 294021</p>
+</div>
+<div class="size-9 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/10" data-alt="User profile avatar of a student" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDYfgSlEhG10zeP7Yn_p_HBHVwwqi3nMmUKpCsZVqLVz4yB3V_zbTYXObBqGLpwb88-lrsa_VXg8mlVcb-rJL5REJDAZBhtJ4c38B1WSrW8EGbuh-ez07a9Ej_kMOk_YVDX3thuZkOsbqRZThLTkkA3XiGfs2wG820gLkko_npvqzuQ0nhR_CBDARtQTOB1_-v5GAfD1sBgx1Uko6shmVEEhFE4pj2jplMwCIP_prtYD0RXew522k9IPqGez6RNBWHf1AiarDYzE1hw');">
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-3xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+<!-- Header Section -->
+<div class="mb-8 text-center sm:text-left">
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Report a New Item</h2>
+<p class="mt-2 text-slate-600 dark:text-slate-400">Fill in the details below to help reunite items with their owners.</p>
+</div>
+<!-- Form Card -->
+<div class="bg-white dark:bg-slate-900/50 shadow-sm border border-primary/5 rounded-xl overflow-hidden">
+<form class="p-6 sm:p-10 space-y-8">
+<!-- Status Toggle Group -->
+<div class="space-y-3">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Report Type</label>
+<div class="grid grid-cols-2 gap-4 p-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="status" type="radio" value="lost"/>
+<div class="flex items-center justify-center py-2 px-4 rounded-md text-sm font-medium transition-all peer-checked:bg-white dark:peer-checked:bg-slate-700 peer-checked:text-primary dark:peer-checked:text-white peer-checked:shadow-sm text-slate-500">
+<span class="material-symbols-outlined text-base mr-2">search</span>
+                                I Lost Something
+                            </div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="status" type="radio" value="found"/>
+<div class="flex items-center justify-center py-2 px-4 rounded-md text-sm font-medium transition-all peer-checked:bg-white dark:peer-checked:bg-slate-700 peer-checked:text-primary dark:peer-checked:text-white peer-checked:shadow-sm text-slate-500">
+<span class="material-symbols-outlined text-base mr-2">inventory_2</span>
+                                I Found Something
+                            </div>
+</label>
+</div>
+</div>
+<!-- Item Information -->
+<div class="grid grid-cols-1 gap-6">
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="item-name">Item Name</label>
+<input class="block w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary/20 transition-colors px-4 py-3" id="item-name" placeholder="e.g. Silver Macbook Pro, Blue Hydroflask" type="text"/>
+<p class="text-[11px] text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">info</span> Required field
+                        </p>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="description">Description</label>
+<textarea class="block w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary/20 transition-colors px-4 py-3" id="description" placeholder="Mention specific identifiers like stickers, scratches, or unique cases..." rows="4"></textarea>
+</div><div class="space-y-3">
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Item Photos</label>
+<div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+<!-- Upload Area -->
+<div class="sm:col-span-3 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-800/30 p-8 transition-colors hover:border-primary/30 group cursor-pointer">
+<div class="flex flex-col items-center justify-center text-center">
+<div class="size-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">add_a_photo</span>
+</div>
+<p class="text-sm font-semibold text-slate-700 dark:text-slate-200">Upload or Take Photo</p>
+<p class="text-xs text-slate-500 mt-1">Drag and drop or click to browse</p>
+<p class="text-[10px] text-slate-400 mt-2 uppercase tracking-wider">PNG, JPG up to 10MB</p>
+</div>
+</div>
+<!-- Preview Area -->
+<div class="flex flex-col gap-2">
+<div class="relative aspect-square rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden group">
+<div class="absolute inset-0 flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-900/50 text-slate-400">
+<span class="material-symbols-outlined text-xl mb-1">image</span>
+<span class="text-[10px] font-medium uppercase">Preview</span>
+</div>
+<!-- Example of a functional feel with a hidden/empty preview state -->
+<div class="absolute top-1 right-1">
+<button class="size-6 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" type="button">
+<span class="material-symbols-outlined text-xs">close</span>
+</button>
+</div>
+</div>
+<p class="text-[10px] text-center text-slate-400 italic">0/3 Photos</p>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300" for="location">Location Found/Lost</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">location_on</span>
+<input class="block w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary/20 transition-colors pl-10 pr-4 py-3" id="location" placeholder="e.g. Student Union Level 2, Near Library Entrance" type="text"/>
+</div>
+</div>
+</div>
+<hr class="border-slate-100 dark:border-slate-800"/>
+<!-- Contact Details -->
+<div class="space-y-6">
+<h3 class="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Contact Information</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block text-sm font-medium text-slate-600 dark:text-slate-400" for="email">University Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">mail</span>
+<input class="block w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 px-10 py-3 cursor-not-allowed" disabled="" id="email" type="email" value="a.rivera@university.edu"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-medium text-slate-600 dark:text-slate-400" for="phone">Phone Number (Optional)</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">call</span>
+<input class="block w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary/20 transition-colors px-10 py-3" id="phone" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Form Actions -->
+<div class="flex flex-col-reverse sm:flex-row items-center justify-end gap-4 pt-4">
+<button class="w-full sm:w-auto px-6 py-3 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors" type="button">
+                        Cancel
+                    </button>
+<button class="w-full sm:w-auto px-8 py-3 bg-primary text-white rounded-lg font-semibold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-[0.98]" type="submit">
+                        Submit Report
+                    </button>
+</div>
+</form>
+</div>
+<!-- Help Footer -->
+<div class="mt-8 text-center">
+<p class="text-sm text-slate-500">
+                Found a high-value item like a wallet or phone? 
+                <a class="text-primary dark:text-blue-400 font-medium hover:underline" href="#">View secure drop-off locations</a>
+</p>
+</div>
+</main>
+<!-- Map Preview Component (Contextual) -->
+<div class="hidden lg:block fixed bottom-8 right-8 w-64 h-64 rounded-xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-800">
+<div class="absolute inset-0 bg-primary/10">
+<div class="w-full h-full grayscale opacity-50" data-alt="Stylized map of university campus buildings" data-location="University Campus" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDGOI2sXyilET9EZQ4zHa6K2zkBIPHQJ7Jb-zSfZgwzFeLs70ew5BA1tQXAA3Tz0QYXyO3bNSSQIfd-Y5-AH6C7pgguZDPf6ZOkIsQ4HwqmAgdPYCooIqEjcmc053MNYLcuD_h6ObfDKmeBWblBTIHN70w9jA9eLPo_TqBb7aSj-V1XEpRqV5YSf1Fh1fNg9mXBit0vzCXxC82oFzdfoFjC_xAYyqe5BOGlWPvM6EZdMaXSUaGEEqra8LUb3M1nAWzZiPwwk1cqhYY1');"></div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-white/90 dark:bg-slate-900/90 px-3 py-2 rounded-full shadow-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">near_me</span>
+<span class="text-xs font-bold text-slate-800 dark:text-slate-100 uppercase tracking-tighter">Campus Map View</span>
+</div>
+</div>
+</div>
+</body></html>
