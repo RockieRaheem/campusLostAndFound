@@ -3,14 +3,7 @@
 @section('title', 'Dashboard | Campus Lost & Found')
 
 @section('content')
-@php
-    $dashboardStats = $stats ?? [
-        'total' => $allItems->count(),
-        'lost' => $allItems->where('status', 'Lost')->count(),
-        'found' => $allItems->where('status', 'Found')->count(),
-        'claimed' => $allItems->where('status', 'Claimed')->count(),
-    ];
-@endphp
+@php($dashboardStats = $stats)
 
 <section class="border-b border-slate-200 bg-white">
     <div class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

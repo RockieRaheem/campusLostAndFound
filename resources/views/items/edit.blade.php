@@ -65,6 +65,19 @@
                     </div>
                 </div>
             </section>
+
+            <section class="panel p-6">
+                <h2 class="text-lg font-bold text-slate-900">Photos</h2>
+                <div class="mt-4 flex flex-wrap gap-4">
+                    <div class="flex h-28 w-28 items-center justify-center rounded-lg border border-slate-200 bg-slate-100">
+                        <span class="material-symbols-outlined text-slate-400">image</span>
+                    </div>
+                    <button type="button" class="flex h-28 w-28 flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 text-slate-500">
+                        <span class="material-symbols-outlined">add_a_photo</span>
+                        <span class="mt-1 text-xs font-medium">Add Photo</span>
+                    </button>
+                </div>
+            </section>
         </div>
 
         <aside class="space-y-6">
@@ -91,6 +104,16 @@
                     @if($item->claimed_at)
                         <p><span class="font-semibold text-slate-700">Claimed:</span> {{ $item->claimed_at->format('M d, Y h:i A') }}</p>
                     @endif
+                </div>
+            </section>
+
+            <section class="panel overflow-hidden">
+                <div class="border-b border-slate-200 px-4 py-3">
+                    <h3 class="text-sm font-bold text-slate-700">Location Map</h3>
+                </div>
+                <div class="flex h-44 items-center justify-center bg-slate-100 text-slate-500">
+                    <span class="material-symbols-outlined mr-2">location_on</span>
+                    <span class="text-sm">{{ $item->location }}</span>
                 </div>
             </section>
 

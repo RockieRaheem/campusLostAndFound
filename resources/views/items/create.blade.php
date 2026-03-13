@@ -65,6 +65,25 @@
                 </div>
 
                 <div>
+                    <label class="field-label">Item Photos</label>
+                    <div class="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-4">
+                        <div class="sm:col-span-3 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8">
+                            <div class="flex flex-col items-center justify-center text-center">
+                                <span class="material-symbols-outlined mb-2 text-3xl text-primary">add_a_photo</span>
+                                <p class="text-sm font-semibold text-slate-700">Photo upload ready for next phase</p>
+                                <p class="mt-1 text-xs text-slate-500">UI matches stitch design; backend file upload can be enabled next.</p>
+                            </div>
+                        </div>
+                        <div class="rounded-xl border border-slate-200 bg-white p-3 text-center">
+                            <div class="flex aspect-square items-center justify-center rounded-lg bg-slate-100">
+                                <span class="material-symbols-outlined text-slate-400">image</span>
+                            </div>
+                            <p class="mt-2 text-[11px] text-slate-500">0/3 Photos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
                     <label for="location" class="field-label">Location Found/Lost</label>
                     <div class="relative mt-2">
                         <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">location_on</span>
@@ -92,6 +111,10 @@
                 <button type="submit" class="btn-primary">Submit Report</button>
             </div>
         </form>
+    </div>
+
+    <div class="mt-8 text-center text-sm text-slate-500">
+        Found a high-value item? <a href="{{ route('items.index') }}" class="font-semibold text-primary hover:underline">Use secure handover workflow</a>
     </div>
 </section>
 @endsection
