@@ -184,7 +184,45 @@ const initPhotoUploader = (container) => {
     syncCounters();
 };
 
+const initItemGallery = (container) => {
+    const mainImage = container.querySelector("[data-main-image]");
+    const thumbnails = container.querySelectorAll("[data-gallery-thumb]");
+
+    if (!mainImage || thumbnails.length === 0) {
+        return;
+    }
+
+    thumbnails.forEach((thumb) => {
+        thumb.addEventListener("click", () => {
+            const fullSrc = thumb.dataset.fullSrc;
+            const fullAlt = thumb.dataset.fullAlt;
+
+            if (!fullSrc) {
+                return;
+            }
+
+            mainImage.src = fullSrc;
+            mainImage.alt = fullAlt ?? mainImage.alt;
+
+            thumbnails.forEach((node) => {
+                node.classList.remove(
+                    "border-primary",
+                    "ring-2",
+                    "ring-primary/30",
+                );
+                node.classList.add("border-slate-200");
+            });
+
+            thumb.classList.remove("border-slate-200");
+            thumb.classList.add("border-primary", "ring-2", "ring-primary/30");
+        });
+    });
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     const uploaders = document.querySelectorAll("[data-photo-uploader]");
     uploaders.forEach((uploader) => initPhotoUploader(uploader));
+
+    const galleries = document.querySelectorAll("[data-item-gallery]");
+    galleries.forEach((gallery) => initItemGallery(gallery));
 });
