@@ -49,6 +49,14 @@ class ItemService
      */
     public function updateItem(Item $item, array $data): bool
     {
+        if (($data['status'] ?? null) === 'Claimed') {
+            $data['claimed_at'] = $item->claimed_at ?? now();
+        }
+
+        if (($data['status'] ?? null) !== 'Claimed') {
+            $data['claimed_at'] = null;
+        }
+
         return $item->update($data);
     }
 
@@ -58,10 +66,7 @@ class ItemService
     public function markItemClaimed(Item $item): bool
     {
         $item->status = 'Claimed';
-
-        if (array_key_exists('claimed_at', $item->getAttributes())) {
-            $item->claimed_at = now();
-        }
+        $item->claimed_at = now();
 
         return $item->save();
     }

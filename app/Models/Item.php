@@ -39,6 +39,16 @@ class Item extends Model
         'description',
         'location',
         'status',
+        'claimed_at',
         'contact'
+    ];
+
+    /**
+     * Attribute casting rules.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'claimed_at' => 'datetime',
     ];
 }

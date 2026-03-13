@@ -123,6 +123,12 @@
                         <span class="detail-icon">📞</span>
                         <span>{{ $item->contact }}</span>
                     </div>
+                    @if($item->status === 'Claimed' && $item->claimed_at)
+                        <div class="detail">
+                            <span class="detail-icon">🗓️</span>
+                            <span>Claimed on {{ $item->claimed_at->format('d M Y') }}</span>
+                        </div>
+                    @endif
                 </div>
                 <div class="item-actions">
                     <a href="{{ route('items.edit', $item) }}" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
