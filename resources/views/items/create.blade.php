@@ -10,13 +10,18 @@
     </div>
 
     @if($errors->any())
-        <div class="alert-danger mb-6">
-            <p class="font-semibold">Please fix the following errors:</p>
-            <ul class="mt-2 list-disc pl-5">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+        <div data-alert data-auto-dismiss="12000" class="alert-danger mb-6 flex items-start justify-between gap-3">
+            <div>
+                <p class="font-semibold">Please fix the following errors:</p>
+                <ul class="mt-2 list-disc pl-5">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            <button type="button" data-alert-close class="text-red-700/70 transition hover:text-red-900" aria-label="Dismiss notification">
+                <span class="material-symbols-outlined text-base">close</span>
+            </button>
         </div>
     @endif
 

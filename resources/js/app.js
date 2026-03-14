@@ -219,10 +219,52 @@ const initItemGallery = (container) => {
     });
 };
 
+const dismissAlert = (alertElement) => {
+    if (!alertElement || alertElement.dataset.dismissed === "true") {
+        return;
+    }
+
+    alertElement.dataset.dismissed = "true";
+    alertElement.style.transition = "opacity 220ms ease, transform 220ms ease";
+    alertElement.style.opacity = "0";
+    alertElement.style.transform = "translateY(-6px)";
+
+    window.setTimeout(() => {
+        alertElement.remove();
+    }, 240);
+};
+
+const initTimedAlerts = () => {
+    const alerts = document.querySelectorAll("[data-alert]");
+
+    alerts.forEach((alertElement) => {
+        const dismissButton = alertElement.querySelector("[data-alert-close]");
+
+        if (dismissButton) {
+            dismissButton.addEventListener("click", () => {
+                dismissAlert(alertElement);
+            });
+        }
+
+        const autoDismissMs = Number.parseInt(
+            alertElement.dataset.autoDismiss ?? "0",
+            10,
+        );
+
+        if (autoDismissMs > 0) {
+            window.setTimeout(() => {
+                dismissAlert(alertElement);
+            }, autoDismissMs);
+        }
+    });
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     const uploaders = document.querySelectorAll("[data-photo-uploader]");
     uploaders.forEach((uploader) => initPhotoUploader(uploader));
 
     const galleries = document.querySelectorAll("[data-item-gallery]");
     galleries.forEach((gallery) => initItemGallery(gallery));
+
+    initTimedAlerts();
 });

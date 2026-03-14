@@ -35,7 +35,12 @@
 
 <section class="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
     @if(session('success'))
-        <div class="alert-success mb-6">{{ session('success') }}</div>
+        <div data-alert data-auto-dismiss="3500" class="alert-success mb-6 flex items-start justify-between gap-3">
+            <span>{{ session('success') }}</span>
+            <button type="button" data-alert-close class="text-emerald-700/70 transition hover:text-emerald-900" aria-label="Dismiss notification">
+                <span class="material-symbols-outlined text-base">close</span>
+            </button>
+        </div>
     @endif
 
     <form method="GET" action="{{ route('items.index') }}" class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
