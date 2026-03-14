@@ -65,5 +65,38 @@
             </div>
         </footer>
     </div>
+
+    <div id="delete-confirm-modal" class="fixed inset-0 z-[100] hidden" aria-hidden="true">
+        <div data-modal-backdrop class="absolute inset-0 bg-slate-900/55 backdrop-blur-[2px]"></div>
+        <div class="relative flex min-h-full items-center justify-center p-4">
+            <div class="w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-2xl">
+                <div class="flex items-start justify-between border-b border-slate-100 px-5 py-4">
+                    <div class="flex items-start gap-3">
+                        <span class="mt-0.5 inline-flex size-9 items-center justify-center rounded-full bg-red-100 text-red-600">
+                            <span class="material-symbols-outlined text-lg">delete_forever</span>
+                        </span>
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900">Delete Item</h3>
+                            <p class="mt-1 text-sm text-slate-500">This action cannot be undone.</p>
+                        </div>
+                    </div>
+                    <button type="button" data-modal-close class="rounded-md p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600" aria-label="Close dialog">
+                        <span class="material-symbols-outlined text-lg">close</span>
+                    </button>
+                </div>
+
+                <div class="px-5 py-4">
+                    <p id="delete-confirm-message" class="text-sm leading-relaxed text-slate-700">
+                        Are you sure you want to delete this item permanently?
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 border-t border-slate-100 px-5 py-4">
+                    <button type="button" data-modal-cancel class="btn-soft">Cancel</button>
+                    <button type="button" data-modal-confirm class="btn-danger">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

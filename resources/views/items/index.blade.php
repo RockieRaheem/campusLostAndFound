@@ -111,10 +111,10 @@
                                     <button type="submit" class="btn-soft" onclick="return confirm('Mark this item as claimed?')">Mark Claimed</button>
                                 </form>
                             @endif
-                            <form action="{{ route('items.destroy', $item) }}" method="POST">
+                            <form action="{{ route('items.destroy', $item) }}" method="POST" data-delete-form data-item-label="{{ $item->item_name }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn-danger" onclick="return confirm('Delete this item permanently?')">Delete</button>
+                                <button type="submit" class="btn-danger">Delete</button>
                             </form>
                         </div>
                     </div>

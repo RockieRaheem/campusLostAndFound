@@ -54,10 +54,10 @@
                     @endif
                     <div class="grid grid-cols-2 gap-2">
                         <a href="{{ route('items.edit', $item) }}" class="btn-soft w-full">Edit</a>
-                        <form action="{{ route('items.destroy', $item) }}" method="POST">
+                        <form action="{{ route('items.destroy', $item) }}" method="POST" data-delete-form data-item-label="{{ $item->item_name }}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn-danger w-full" onclick="return confirm('Delete this item permanently?')">Delete</button>
+                            <button type="submit" class="btn-danger w-full">Delete</button>
                         </form>
                     </div>
                 </div>

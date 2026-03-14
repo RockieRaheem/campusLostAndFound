@@ -259,6 +259,68 @@ const initTimedAlerts = () => {
     });
 };
 
+const initDeleteConfirmModal = () => {
+    const modal = document.getElementById("delete-confirm-modal");
+
+    if (!modal) {
+        return;
+    }
+
+    const messageElement = modal.querySelector("#delete-confirm-message");
+    const confirmButton = modal.querySelector("[data-modal-confirm]");
+    const cancelButton = modal.querySelector("[data-modal-cancel]");
+    const closeButton = modal.querySelector("[data-modal-close]");
+    const backdrop = modal.querySelector("[data-modal-backdrop]");
+    const deleteForms = document.querySelectorAll("form[data-delete-form]");
+
+    let pendingForm = null;
+
+    const openModal = (form) => {
+        pendingForm = form;
+
+        const itemLabel = form.dataset.itemLabel?.trim();
+        messageElement.textContent = itemLabel
+            ? `Are you sure you want to permanently delete "${itemLabel}"? This action cannot be undone.`
+            : "Are you sure you want to delete this item permanently? This action cannot be undone.";
+
+        modal.classList.remove("hidden");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("overflow-hidden");
+    };
+
+    const closeModal = () => {
+        pendingForm = null;
+        modal.classList.add("hidden");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("overflow-hidden");
+    };
+
+    deleteForms.forEach((form) => {
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            openModal(form);
+        });
+    });
+
+    confirmButton?.addEventListener("click", () => {
+        if (pendingForm) {
+            const formToSubmit = pendingForm;
+            closeModal();
+            formToSubmit.submit();
+        }
+    });
+
+    [cancelButton, closeButton, backdrop].forEach((node) => {
+        node?.addEventListener("click", closeModal);
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !modal.classList.contains("hidden")) {
+            closeModal();
+        }
+    });
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     const uploaders = document.querySelectorAll("[data-photo-uploader]");
     uploaders.forEach((uploader) => initPhotoUploader(uploader));
@@ -267,4 +329,5 @@ document.addEventListener("DOMContentLoaded", () => {
     galleries.forEach((gallery) => initItemGallery(gallery));
 
     initTimedAlerts();
+    initDeleteConfirmModal();
 });
