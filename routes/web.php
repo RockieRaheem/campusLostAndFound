@@ -19,8 +19,10 @@ Route::get('/', [ItemController::class, 'index'])->name('items.index');
 // Show form to create new item
 Route::get('/create', [ItemController::class, 'create'])->name('items.create');
 
-// Store new item in database
-Route::post('/store', [ItemController::class, 'store'])->name('items.store');
+// Store new item in database (Protected by rate limiting: max 5 requests per minute)
+Route::post('/store', [ItemController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('items.store');
 
 // Show form to edit an item
 Route::get('/items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');

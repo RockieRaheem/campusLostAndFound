@@ -118,13 +118,11 @@ class ItemService
      */
     public function deleteItem(Item $item): ?bool
     {
-        $item->loadMissing('photos');
-
-        foreach ($item->photos as $photo) {
-            Storage::disk('public')->delete($photo->path);
-        }
-
-        return $item->delete();
+        // When using Soft Deletes, we should NOT physically remove the files from disk.
+        // Instead, we just delete the item (and optionally cascade soft delete to photos).
+        $item->photos()->delete(); // Soft delete photos
+        
+        return $item->delete(); // Soft delete item
     }
 
     /**
