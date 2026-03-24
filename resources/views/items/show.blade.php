@@ -67,35 +67,35 @@
         <div class="lg:col-span-8 space-y-6">
             <section class="panel p-6 md:p-8">
                 <div class="flex flex-col justify-between gap-4 md:flex-row md:items-start">
-                    <div>
+                    <div class="min-w-0 max-w-full">
                         <div class="flex flex-wrap items-center gap-3">
-                            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">{{ $item->item_name }}</h1>
+                            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 break-words">{{ $item->item_name }}</h1>
                             <span class="status-badge {{ $item->status === 'Lost' ? 'status-lost' : ($item->status === 'Found' ? 'status-found' : 'status-claimed') }}">{{ $item->status }}</span>
                         </div>
                         <p class="mt-2 text-sm text-slate-500">Record ID: #LF-{{ str_pad((string) $item->id, 4, '0', STR_PAD_LEFT) }}</p>
                     </div>
-                    <a href="{{ route('items.index') }}" class="btn-soft">Back to Dashboard</a>
+                    <a href="{{ route('items.index') }}" class="btn-soft shrink-0">Back to Dashboard</a>
                 </div>
 
                 <div class="mt-6 grid grid-cols-1 gap-6 border-t border-slate-100 pt-6 md:grid-cols-3">
-                    <div>
+                    <div class="min-w-0">
                         <p class="text-sm text-slate-500">Location</p>
-                        <p class="mt-1 font-semibold text-slate-800">{{ $item->location }}</p>
+                        <p class="mt-1 font-semibold text-slate-800 break-words">{{ $item->location }}</p>
                     </div>
-                    <div>
+                    <div class="min-w-0">
                         <p class="text-sm text-slate-500">Reported Date</p>
                         <p class="mt-1 font-semibold text-slate-800">{{ $item->created_at->format('F d, Y') }}</p>
                     </div>
-                    <div>
+                    <div class="min-w-0">
                         <p class="text-sm text-slate-500">Contact</p>
-                        <p class="mt-1 font-semibold text-slate-800">{{ $item->contact }}</p>
+                        <p class="mt-1 font-semibold text-slate-800 break-words">{{ $item->contact }}</p>
                     </div>
                 </div>
             </section>
 
-            <section class="panel p-6 md:p-8">
+            <section class="panel p-6 md:p-8 min-w-0">
                 <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500">Item Description</h2>
-                <p class="mt-4 whitespace-pre-line leading-relaxed text-slate-700">{{ $item->description }}</p>
+                <p class="mt-4 whitespace-pre-line leading-relaxed text-slate-700 break-words">{{ $item->description }}</p>
             </section>
 
             <section class="rounded-xl border-2 border-primary/20 bg-primary/5 p-6 md:p-8">

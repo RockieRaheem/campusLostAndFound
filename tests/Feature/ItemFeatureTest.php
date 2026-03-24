@@ -53,4 +53,33 @@ class ItemFeatureTest extends TestCase
         // Assert it still physically exists in the database
         $this->assertSoftDeleted('items', ['id' => $item->id]);
     }
+
+    public function test_cannot_submit_item_with_invalid_data()
+    {
+        // Negative test: Missing all required fields
+        $response = $this->post(route('items.store'), []);
+        
+        $response->assertSessionHasErrors(['item_name', 'description', 'location', 'status', 'contact']);
+        $this->assertDatabaseCount('items', 0);
+    }
+
+    public function test_rate_limiting_on_item_submission()
+    {
+        // Negative test: Hit the endpoint 6 times (limit is 5 per minute)
+        $itemData = [
+            'item_name' => 'Valid Item',
+            'description' => 'Valid description here long enough',
+            'location' => 'Library',
+            'status' => 'Lost',
+            'contact' => 'test@test.com',
+        ];
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->post(route('items.store'), $itemData);
+        }
+
+        // The 6th request should be blocked by the throttle middleware
+        $response = $this->post(route('items.store'), $itemData);
+        $response->assertStatus(429); // 429 Too Many Requests
+    }
 }

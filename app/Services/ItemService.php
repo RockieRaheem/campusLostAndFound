@@ -78,6 +78,9 @@ class ItemService
     public function updateItem(Item $item, array $data): bool
     {
         return DB::transaction(function () use ($item, $data): bool {
+            // Lock the row to prevent concurrent updates
+            $lockedItem = Item::where('id', $item->id)->lockForUpdate()->first();
+
             /** @var array<int, UploadedFile> $photos */
             $photos = $data['photos'] ?? [];
             $removePhotoIds = $data['remove_photo_ids'] ?? [];
@@ -85,20 +88,20 @@ class ItemService
             unset($data['photos'], $data['remove_photo_ids']);
 
             if (($data['status'] ?? null) === 'Claimed') {
-                $data['claimed_at'] = $item->claimed_at ?? now();
+                $data['claimed_at'] = $lockedItem->claimed_at ?? now();
             }
 
             if (($data['status'] ?? null) !== 'Claimed') {
                 $data['claimed_at'] = null;
             }
 
-            $updated = $item->update($data);
+            $updated = $lockedItem->update($data);
 
             if (!empty($removePhotoIds)) {
-                $this->removePhotosByIds($item, $removePhotoIds);
+                $this->removePhotosByIds($lockedItem, $removePhotoIds);
             }
 
-            $this->storePhotosForItem($item, $photos);
+            $this->storePhotosForItem($lockedItem, $photos);
 
             return $updated;
         });
@@ -109,10 +112,15 @@ class ItemService
      */
     public function markItemClaimed(Item $item): bool
     {
-        $item->status = 'Claimed';
-        $item->claimed_at = now();
+        return DB::transaction(function () use ($item) {
+            // Lock the row to prevent concurrent claims
+            $lockedItem = Item::where('id', $item->id)->lockForUpdate()->first();
+            
+            $lockedItem->status = 'Claimed';
+            $lockedItem->claimed_at = now();
 
-        return $item->save();
+            return $lockedItem->save();
+        });
     }
 
     /**
