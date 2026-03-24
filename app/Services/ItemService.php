@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ItemService
 {
@@ -135,16 +137,23 @@ class ItemService
         }
 
         $nextSortOrder = (int) $item->photos()->max('sort_order') + 1;
+        $manager = new ImageManager(new Driver());
 
         foreach ($photos as $photo) {
             if (!$photo instanceof UploadedFile) {
                 continue;
             }
 
-            $storedPath = $photo->store('item-photos', 'public');
+            // Optimize image: remove EXIF data, scale down, format to webp uniformly
+            $image = $manager->read($photo->getRealPath());
+            $image->scaleDown(1200, 1200); // Prevents users from uploading massive photos
+            $encoded = $image->toWebp(80); // Encode to webp at 80% quality
+
+            $filename = 'item-photos/' . uniqid() . '.webp';
+            Storage::disk('public')->put($filename, (string) $encoded);
 
             $item->photos()->create([
-                'path' => $storedPath,
+                'path' => $filename,
                 'sort_order' => $nextSortOrder,
             ]);
 
