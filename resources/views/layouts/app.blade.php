@@ -49,7 +49,22 @@
 
                 <nav class="hidden items-center gap-6 md:flex">
                     <a href="{{ route('items.index') }}" class="text-sm font-semibold transition {{ request()->routeIs('items.index') ? 'text-primary' : 'text-slate-600 hover:text-primary' }}">Dashboard</a>
-                    <a href="{{ route('items.create') }}" class="text-sm font-semibold transition {{ request()->routeIs('items.create') ? 'text-primary' : 'text-slate-600 hover:text-primary' }}">Report Item</a>
+                    @auth
+                        <a href="{{ route('items.create') }}" class="text-sm font-semibold transition {{ request()->routeIs('items.create') ? 'text-primary' : 'text-slate-600 hover:text-primary' }}">Report Item</a>
+                        
+                        <div class="flex items-center gap-4 ml-4 pl-4 border-l border-slate-200">
+                            <span class="text-sm font-medium text-slate-700">{{ Auth::user()->name }}</span>
+                            <form method="POST" action="{{ route('logout') }}" class="m-0">
+                                @csrf
+                                <button type="submit" class="text-sm font-semibold text-slate-600 hover:text-red-600 transition">Log out</button>
+                            </form>
+                        </div>
+                    @else
+                        <div class="flex items-center gap-3 ml-2">
+                            <a href="{{ route('login') }}" class="text-sm font-semibold text-primary hover:text-primary/80 transition">Log in</a>
+                            <a href="{{ route('register') }}" class="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 transition">Sign up</a>
+                        </div>
+                    @endauth
                 </nav>
             </div>
         </header>

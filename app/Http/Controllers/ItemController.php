@@ -58,8 +58,11 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
+        $validated = $request->validated();
+        $validated['user_id'] = auth()->id();
+
         // Create new item using mass assignment (protected by $fillable in Model)
-        $this->itemService->createItem($request->validated());
+        $this->itemService->createItem($validated);
 
         // Redirect back to the items list with success message
         return redirect()->route('items.index')
@@ -74,6 +77,9 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        // Require authorization
+        $this->authorize('update', $item);
+
         $item->load('photos');
 
         return view('items.edit', compact('item'));
@@ -88,6 +94,9 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
+        // Require authorization
+        $this->authorize('update', $item);
+
         $this->itemService->updateItem($item, $request->validated());
 
         return redirect()->route('items.index')
@@ -105,6 +114,9 @@ class ItemController extends Controller
      */
     public function claim(Item $item)
     {
+        // Require authorization
+        $this->authorize('claim', $item);
+
         $this->itemService->markItemClaimed($item);
 
         return redirect()->route('items.index')
@@ -119,6 +131,9 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
+        // Require authorization
+        $this->authorize('delete', $item);
+
         $this->itemService->deleteItem($item);
 
         return redirect()->route('items.index')
