@@ -46,20 +46,24 @@
                 @endif
                 <div class="mt-4 space-y-2">
                     @if($item->status !== 'Claimed')
+                        @can('update', $item)
                         <form action="{{ route('items.claim', $item) }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <button type="submit" class="btn-primary w-full" onclick="return confirm('Mark this item as claimed?')">Mark as Claimed</button>
                         </form>
+                        @endcan
                     @endif
-                    <div class="grid grid-cols-2 gap-2">
-                        <a href="{{ route('items.edit', $item) }}" class="btn-soft w-full">Edit</a>
-                        <form action="{{ route('items.destroy', $item) }}" method="POST" data-delete-form data-item-label="{{ $item->item_name }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-danger w-full">Delete</button>
-                        </form>
-                    </div>
+                    @can('update', $item)
+                        <div class="grid grid-cols-2 gap-2 mt-4">
+                            <a href="{{ route('items.edit', $item) }}" class="btn-soft w-full">Edit</a>
+                            <form action="{{ route('items.destroy', $item) }}" method="POST" data-delete-form data-item-label="{{ $item->item_name }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" data-delete-trigger class="btn-danger w-full outline-offset-2">Delete</button>
+                            </form>
+                        </div>
+                    @endcan
                 </div>
             </div>
         </aside>
