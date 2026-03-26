@@ -26,7 +26,6 @@ class StoreItemRequest extends FormRequest
             'description' => 'required|string|min:10',
             'location' => 'required|string|max:255',
             'status' => 'required|in:Lost,Found',
-            'contact' => 'required|string|max:255',
             'photos' => 'nullable|array|max:3',
             'photos.*' => 'image|mimes:jpeg,jpg,png,webp|max:10240',
         ];

@@ -43,7 +43,6 @@ class Item extends Model
         'location',
         'status',
         'claimed_at',
-        'contact',
         'user_id'
     ];
 
