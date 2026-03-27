@@ -107,17 +107,6 @@
                         <span class="error-message">{{ $message }}</span>
                     @enderror
                 </div>
-
-                <div>
-                    <label for="contact" class="field-label">Contact Information</label>
-                    <div class="relative mt-2">
-                        <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">call</span>
-                        <input type="text" name="contact" id="contact" class="field-input pl-10" placeholder="Phone or email" value="{{ old('contact') }}" required>
-                    </div>
-                    @error('contact')
-                        <span class="error-message">{{ $message }}</span>
-                    @enderror
-                </div>
             </div>
 
             <div class="flex flex-col-reverse justify-end gap-3 border-t border-slate-100 pt-4 sm:flex-row">

@@ -21,7 +21,6 @@ class ItemFactory extends Factory
             'description' => fake()->sentence(10),
             'location' => fake()->word(),
             'status' => fake()->randomElement(['Lost', 'Found']),
-            'contact' => fake()->safeEmail(),
         ];
     }
 }

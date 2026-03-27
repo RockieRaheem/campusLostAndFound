@@ -91,8 +91,8 @@
                         <p class="mt-1 font-semibold text-slate-800">{{ $item->created_at->format('F d, Y') }}</p>
                     </div>
                     <div class="min-w-0">
-                        <p class="text-sm text-slate-500">Contact</p>
-                        <p class="mt-1 font-semibold text-slate-800 break-words">{{ $item->contact }}</p>
+                        <p class="text-sm text-slate-500">Listed By</p>
+                        <p class="mt-1 font-semibold text-slate-800 break-words">{{ $item->user->name }}</p>
                     </div>
                 </div>
             </section>
@@ -102,7 +102,16 @@
                 <p class="mt-4 whitespace-pre-line leading-relaxed text-slate-700 break-words">{{ $item->description }}</p>
             </section>
 
-            <section class="rounded-xl border-2 border-primary/20 bg-primary/5 p-6 md:p-8">
+            @if($item->isActive())
+            <section class="rounded-xl border-2 border-primary/20 bg-primary/5 p-6 md:p-8 text-center mt-6">
+                <h2 class="text-lg font-bold text-slate-900 mb-2">Think this relates to you?</h2>
+                <a href="mailto:{{ $item->user->email }}?subject=Regarding%20{{ urlencode($item->item_name) }}%20on%20Campus%20Finder" class="btn-primary mt-2">
+                    <span class="material-symbols-outlined mr-2">mail</span> Send Email to listed user
+                </a>
+            </section>
+            @endif
+
+            <section class="rounded-xl border-2 border-primary/20 bg-primary/5 p-6 md:p-8 mt-6">
                 <h2 class="text-sm font-bold uppercase tracking-widest text-primary">Status Timeline</h2>
                 <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div class="rounded-lg border border-primary/10 bg-white/60 p-4">

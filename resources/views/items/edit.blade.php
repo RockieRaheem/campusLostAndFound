@@ -60,14 +60,6 @@
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
-
-                    <div>
-                        <label for="contact" class="field-label">Contact</label>
-                        <input type="text" name="contact" id="contact" class="field-input mt-2" value="{{ old('contact', $item->contact) }}" required>
-                        @error('contact')
-                            <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
                 </div>
             </section>
 

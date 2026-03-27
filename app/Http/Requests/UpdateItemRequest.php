@@ -28,7 +28,6 @@ class UpdateItemRequest extends FormRequest
             'description' => 'required|string|min:10',
             'location' => 'required|string|max:255',
             'status' => 'required|in:Lost,Found,Claimed',
-            'contact' => 'required|string|max:255',
             'photos' => 'nullable|array|max:3',
             'photos.*' => 'image|mimes:jpeg,jpg,png,webp|max:10240',
             'remove_photo_ids' => 'nullable|array',
