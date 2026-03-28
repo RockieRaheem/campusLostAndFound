@@ -1,0 +1,21 @@
+﻿
+   PASS  Tests\Unit\ExampleTest
+  Γ£ô that true is true                                                    0.61s  
+
+   PASS  Tests\Feature\ExampleTest
+  Γ£ô the application returns a successful response                       12.91s  
+
+   PASS  Tests\Feature\ItemFeatureTest
+  Γ£ô dashboard loads correctly                                            1.38s  
+  Γ£ô user can submit a new item                                           2.80s  
+  Γ£ô items are soft deleted                                               0.50s  
+  Γ£ô cannot submit item with invalid data                                 0.15s  
+  Γ£ô rate limiting on item submission                                     0.40s  
+
+   PASS  Tests\Feature\ItemPhotoUploadTest
+  Γ£ô it stores item with uploaded photos                                  7.17s  
+  Γ£ô it updates item photos by removing and adding                        0.15s  
+
+  Tests:    9 passed (29 assertions)
+  Duration: 32.18s
+

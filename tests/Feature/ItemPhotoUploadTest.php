@@ -16,8 +16,7 @@ class ItemPhotoUploadTest extends TestCase
 
     private function tinyPngFile(string $name): UploadedFile
     {
-        $pngData = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO7+f0sAAAAASUVORK5CYII=');
-        return UploadedFile::fake()->createWithContent($name, $pngData);
+        return UploadedFile::fake()->image($name);
     }
 
     public function test_it_stores_item_with_uploaded_photos(): void

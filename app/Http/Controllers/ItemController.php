@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
@@ -78,7 +79,7 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         // Require authorization
-        $this->authorize('update', $item);
+        Gate::authorize('update', $item);
 
         $item->load('photos');
 
@@ -95,7 +96,7 @@ class ItemController extends Controller
     public function update(UpdateItemRequest $request, Item $item)
     {
         // Require authorization
-        $this->authorize('update', $item);
+        Gate::authorize('update', $item);
 
         $this->itemService->updateItem($item, $request->validated());
 
@@ -115,7 +116,7 @@ class ItemController extends Controller
     public function claim(Item $item)
     {
         // Require authorization
-        $this->authorize('claim', $item);
+        Gate::authorize('claim', $item);
 
         $this->itemService->markItemClaimed($item);
 
@@ -132,7 +133,7 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         // Require authorization
-        $this->authorize('delete', $item);
+        Gate::authorize('delete', $item);
 
         $this->itemService->deleteItem($item);
 
