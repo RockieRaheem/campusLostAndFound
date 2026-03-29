@@ -117,7 +117,13 @@ class ItemService
             $lockedItem->status = 'Claimed';
             $lockedItem->claimed_at = now();
 
-            return $lockedItem->save();
+            $saved = $lockedItem->save();
+
+            if ($saved && $lockedItem->user) {
+                $lockedItem->user->notify(new \App\Notifications\ItemClaimedNotification($lockedItem));
+            }
+
+            return $saved;
         });
     }
 
