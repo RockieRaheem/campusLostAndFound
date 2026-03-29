@@ -113,12 +113,13 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function claim(Item $item)
+    public function claim(Request $request, Item $item)
     {
         // Require authorization
         Gate::authorize('claim', $item);
 
-        $this->itemService->markItemClaimed($item);
+        $claimantInfo = $request->input('claimant_info');
+        $this->itemService->markItemClaimed($item, $claimantInfo);
 
         return redirect()->route('items.index')
             ->with('success', 'Item has been marked as claimed!');

@@ -108,14 +108,18 @@ class ItemService
     /**
      * Mark an item as claimed.
      */
-    public function markItemClaimed(Item $item): bool
+public function markItemClaimed(Item $item, ?string $claimantInfo = null): bool
     {
-        return DB::transaction(function () use ($item) {
+        return DB::transaction(function () use ($item, $claimantInfo) {
             // Lock the row to prevent concurrent claims
             $lockedItem = Item::where('id', $item->id)->lockForUpdate()->first();
-            
+
             $lockedItem->status = 'Claimed';
             $lockedItem->claimed_at = now();
+            
+            if ($claimantInfo) {
+                $lockedItem->claimant_info = $claimantInfo;
+            }
 
             $saved = $lockedItem->save();
 

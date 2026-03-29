@@ -50,7 +50,7 @@
                         <form action="{{ route('items.claim', $item) }}" method="POST">
                             @csrf
                             @method('PATCH')
-                            <button type="submit" class="btn-primary w-full" onclick="return confirm('Mark this item as claimed?')">Mark as Claimed</button>
+                            <button type="button" class="btn-primary w-full" onclick="let info = prompt('Optional: Enter the name or contact of the person claiming this item:'); if(info !== null) { let i = document.createElement('input'); i.type='hidden'; i.name='claimant_info'; i.value=info; this.closest('form').appendChild(i); this.closest('form').submit(); }">Mark as Claimed</button>
                         </form>
                         @endcan
                     @endif
@@ -123,10 +123,16 @@
                         <p class="mt-1 font-semibold text-slate-800">{{ $item->updated_at->format('d M Y, h:i A') }}</p>
                     </div>
                     @if($item->claimed_at)
-                        <div class="rounded-lg border border-primary/10 bg-white/60 p-4 md:col-span-2">
+                        <div class="rounded-lg border border-primary/10 bg-white/60 p-4 {{ $item->claimant_info ? 'md:col-span-1' : 'md:col-span-2' }}">
                             <p class="text-xs font-medium text-slate-500">Claimed At</p>
                             <p class="mt-1 font-semibold text-slate-800">{{ $item->claimed_at->format('d M Y, h:i A') }}</p>
                         </div>
+                        @if($item->claimant_info)
+                        <div class="rounded-lg border border-primary/10 bg-white/60 p-4 md:col-span-1">
+                            <p class="text-xs font-medium text-slate-500">Claimed By</p>
+                            <p class="mt-1 font-semibold text-slate-800 flex items-center gap-2"><span class="material-symbols-outlined text-base">id_card</span>{{ $item->claimant_info }}</p>
+                        </div>
+                        @endif
                     @endif
                 </div>
             </section>

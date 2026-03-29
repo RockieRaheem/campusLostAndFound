@@ -97,7 +97,12 @@
                             <p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">location_on</span>{{ $item->location }}</p>
                             <p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">person</span>Reported by {{ $item->user->name ?? 'Anonymous' }}</p>
                             @if($item->claimed_at)
-                                <p class="flex items-center gap-2 text-emerald-600 font-medium"><span class="material-symbols-outlined text-base">check_circle</span>Claimed {{ $item->claimed_at->format('M d, Y') }}</p>
+                                <div class="space-y-1">
+                                    <p class="flex items-center gap-2 text-emerald-600 font-medium"><span class="material-symbols-outlined text-base">check_circle</span>Claimed {{ $item->claimed_at->format('M d, Y') }}</p>
+                                    @if($item->claimant_info)
+                                    <p class="flex items-center gap-2 text-emerald-700 text-xs pl-7"><span class="material-symbols-outlined text-[14px]">id_card</span>{{ $item->claimant_info }}</p>
+                                    @endif
+                                </div>
                             @endif
                         </div>
 
@@ -113,7 +118,7 @@
                                     <form action="{{ route('items.claim', $item) }}" method="POST" class="flex-1 sm:w-auto">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="btn-soft w-full justify-center" onclick="return confirm('Mark this item as claimed?')" title="Mark as Claimed">
+                                        <button type="button" class="btn-soft w-full justify-center" onclick="let info = prompt('Optional: Enter the name or contact of the person claiming this item:'); if(info !== null) { let i = document.createElement('input'); i.type='hidden'; i.name='claimant_info'; i.value=info; this.closest('form').appendChild(i); this.closest('form').submit(); }" title="Mark as Claimed">
                                             <span class="material-symbols-outlined text-[18px]">check_circle</span>
                                         </button>
                                     </form>
