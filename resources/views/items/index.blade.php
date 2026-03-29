@@ -95,9 +95,9 @@
 
                         <div class="mt-4 space-y-2 rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
                             <p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">location_on</span>{{ $item->location }}</p>
-                            <p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">call</span>{{ $item->contact }}</p>
+                            <p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">person</span>Reported by {{ $item->user->name }}</p>
                             @if($item->claimed_at)
-                                <p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">calendar_today</span>Claimed {{ $item->claimed_at->format('M d, Y') }}</p>
+                                <p class="flex items-center gap-2 text-emerald-600 font-medium"><span class="material-symbols-outlined text-base">check_circle</span>Claimed {{ $item->claimed_at->format('M d, Y') }}</p>
                             @endif
                         </div>
 
