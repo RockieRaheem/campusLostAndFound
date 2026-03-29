@@ -102,7 +102,7 @@
                 <p class="mt-4 whitespace-pre-line leading-relaxed text-slate-700 break-words">{{ $item->description }}</p>
             </section>
 
-            @if($item->isActive() && $item->user)
+            @if($item->status !== 'Claimed' && $item->user)
             <section class="rounded-xl border-2 border-primary/20 bg-primary/5 p-6 md:p-8 text-center mt-6">
                 <h2 class="text-lg font-bold text-slate-900 mb-2">Think this relates to you?</h2>
                 <a href="mailto:{{ $item->user->email }}?subject=Regarding%20{{ urlencode($item->item_name) }}%20on%20Campus%20Finder" class="btn-primary mt-2 inline-flex items-center justify-center">
