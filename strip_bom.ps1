@@ -1,0 +1,1 @@
+$bytes = [System.IO.File]::ReadAllBytes("tests\Feature\ItemFeatureTest.php"); if ($bytes[0] -eq 239 -and $bytes[1] -eq 187 -and $bytes[2] -eq 191) { $stripped = $bytes[3..($bytes.Length - 1)]; [System.IO.File]::WriteAllBytes("tests\Feature\ItemFeatureTest.php", $stripped) }

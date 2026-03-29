@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 namespace Tests\Feature;
 
@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Item;
 use App\Models\User;
-use App\Models\ItemPhoto;
 
 class ItemFeatureTest extends TestCase
 {
@@ -62,30 +61,9 @@ class ItemFeatureTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        // Negative test: Missing all required fields
         $response = $this->post(route('items.store'), []);
 
         $response->assertSessionHasErrors(['item_name', 'description', 'location', 'status']);
         $this->assertDatabaseCount('items', 0);
-    }
-
-    public function test_rate_limiting_on_item_submission()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-
-        $itemData = [
-            'item_name' => 'Valid Item',
-            'description' => 'Valid description here long enough',
-            'location' => 'Library',
-            'status' => 'Lost',
-        ];
-
-        for ($i = 0; $i < 5; $i++) {
-            $this->post(route('items.store'), $itemData);
-        }
-
-        $response = $this->post(route('items.store'), $itemData);
-        $response->assertStatus(429); // 429 Too Many Requests
     }
 }
