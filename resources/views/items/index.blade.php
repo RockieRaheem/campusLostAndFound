@@ -139,11 +139,16 @@
             </div>
         @endif
     @else
-        <div class="panel p-12 text-center">
-            <span class="material-symbols-outlined mx-auto text-6xl text-slate-300">search_off</span>
-            <h3 class="mt-4 text-2xl font-bold text-slate-900">No items found</h3>
-            <p class="mt-2 text-slate-500">Try adjusting your search or filters, or report a new item.</p>
-            <a href="{{ route('items.create') }}" class="btn-primary mt-6">Report New Item</a>
+        <div class="panel p-16 text-center flex flex-col items-center justify-center border-dashed border-2 border-slate-200 shadow-none bg-slate-50/50">
+            <div class="h-20 w-20 rounded-full bg-slate-100 flex items-center justify-center mb-6">
+                <span class="material-symbols-outlined text-4xl text-slate-400">search_off</span>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-800">No items found</h3>
+            <p class="mt-2 text-slate-500 max-w-md">We couldn't find any items matching your current search or filters. Try adjusting them or report a new finding.</p>
+            <div class="mt-8 flex gap-4">
+                <a href="{{ route('items.index') }}" class="btn-soft">Clear Filters</a>
+                <a href="{{ route('items.create') }}" class="btn-primary flex items-center gap-2"><span class="material-symbols-outlined text-sm">add</span> Report New Item</a>
+            </div>
         </div>
     @endif
 </section>
