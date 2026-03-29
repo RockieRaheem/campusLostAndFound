@@ -101,21 +101,32 @@
                             @endif
                         </div>
 
-                        <div class="mt-4 flex flex-wrap gap-2">
-                            <a href="{{ route('items.show', $item) }}" class="btn-primary">View</a>
-                            <a href="{{ route('items.edit', $item) }}" class="btn-soft">Edit</a>
-                            @if($item->status !== 'Claimed')
-                                <form action="{{ route('items.claim', $item) }}" method="POST">
+                        <div class="mt-5 flex flex-col gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:items-center w-full">
+                            <a href="{{ route('items.show', $item) }}" class="btn-primary w-full sm:w-auto flex-1 justify-center">View Details</a>
+
+                            @can('update', $item)
+                            <div class="flex gap-2 w-full sm:w-auto">
+                                <a href="{{ route('items.edit', $item) }}" class="btn-soft flex-1 justify-center sm:w-auto" title="Edit">
+                                    <span class="material-symbols-outlined text-[18px]">edit</span>
+                                </a>
+                                @if($item->status !== 'Claimed')
+                                    <form action="{{ route('items.claim', $item) }}" method="POST" class="flex-1 sm:w-auto">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn-soft w-full justify-center" onclick="return confirm('Mark this item as claimed?')" title="Mark as Claimed">
+                                            <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                                        </button>
+                                    </form>
+                                @endif
+                                <form action="{{ route('items.destroy', $item) }}" method="POST" data-delete-form data-item-label="{{ $item->item_name }}" class="flex-1 sm:w-auto">
                                     @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="btn-soft" onclick="return confirm('Mark this item as claimed?')">Mark Claimed</button>
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-danger w-full justify-center" title="Delete">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                                    </button>
                                 </form>
-                            @endif
-                            <form action="{{ route('items.destroy', $item) }}" method="POST" data-delete-form data-item-label="{{ $item->item_name }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn-danger">Delete</button>
-                            </form>
+                            </div>
+                            @endcan
                         </div>
                     </div>
                 </article>
