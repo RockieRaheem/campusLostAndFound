@@ -19,6 +19,6 @@ class ItemPolicy
 
     public function claim(User $user, Item $item): bool
     {
-        return $user->id === $item->user_id;
+        return $item->status !== 'Claimed';
     }
 }

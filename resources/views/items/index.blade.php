@@ -109,12 +109,15 @@
                         <div class="mt-5 flex flex-col gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:items-center w-full">
                             <a href="{{ route('items.show', $item) }}" class="btn-primary w-full sm:w-auto flex-1 justify-center">View Details</a>
 
-                            @can('update', $item)
                             <div class="flex gap-2 w-full sm:w-auto">
+                                @can('update', $item)
                                 <a href="{{ route('items.edit', $item) }}" class="btn-soft flex-1 justify-center sm:w-auto" title="Edit">
                                     <span class="material-symbols-outlined text-[18px]">edit</span>
                                 </a>
+                                @endcan
+
                                 @if($item->status !== 'Claimed')
+                                    @can('claim', $item)
                                     <form action="{{ route('items.claim', $item) }}" method="POST" class="flex-1 sm:w-auto">
                                         @csrf
                                         @method('PATCH')
@@ -122,7 +125,10 @@
                                             <span class="material-symbols-outlined text-[18px]">check_circle</span>
                                         </button>
                                     </form>
+                                    @endcan
                                 @endif
+
+                                @can('delete', $item)
                                 <form action="{{ route('items.destroy', $item) }}" method="POST" data-delete-form data-item-label="{{ $item->item_name }}" class="flex-1 sm:w-auto">
                                     @csrf
                                     @method('DELETE')
@@ -130,8 +136,8 @@
                                         <span class="material-symbols-outlined text-[18px]">delete</span>
                                     </button>
                                 </form>
+                                @endcan
                             </div>
-                            @endcan
                         </div>
                     </div>
                 </article>
