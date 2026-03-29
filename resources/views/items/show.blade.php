@@ -92,7 +92,7 @@
                     </div>
                     <div class="min-w-0">
                         <p class="text-sm text-slate-500">Listed By</p>
-                        <p class="mt-1 font-semibold text-slate-800 break-words">{{ $item->user->name }}</p>
+                        <p class="mt-1 font-semibold text-slate-800 break-words">{{ $item->user->name ?? 'Anonymous' }}</p>
                     </div>
                 </div>
             </section>
@@ -102,7 +102,7 @@
                 <p class="mt-4 whitespace-pre-line leading-relaxed text-slate-700 break-words">{{ $item->description }}</p>
             </section>
 
-            @if($item->isActive())
+            @if($item->isActive() && $item->user)
             <section class="rounded-xl border-2 border-primary/20 bg-primary/5 p-6 md:p-8 text-center mt-6">
                 <h2 class="text-lg font-bold text-slate-900 mb-2">Think this relates to you?</h2>
                 <a href="mailto:{{ $item->user->email }}?subject=Regarding%20{{ urlencode($item->item_name) }}%20on%20Campus%20Finder" class="btn-primary mt-2 inline-flex items-center justify-center">
