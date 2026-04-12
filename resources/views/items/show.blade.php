@@ -136,6 +136,32 @@
                     @endif
                 </div>
             </section>
+
+            @if(isset($potentialMatches) && $potentialMatches->count() > 0)
+            <section class="rounded-xl border border-slate-200 bg-white p-6 md:p-8 mt-6">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="material-symbols-outlined text-emerald-600">auto_awesome</span>
+                    <h2 class="text-lg font-bold text-slate-900">Potential Smart Matches</h2>
+                </div>
+                <p class="text-sm text-slate-500 mb-6">We found {{ $potentialMatches->count() }} {{ $potentialMatches->count() === 1 ? 'item' : 'items' }} that might be related to your report.</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    @foreach($potentialMatches as $match)
+                        <a href="{{ route('items.show', $match) }}" class="block p-4 rounded-xl border border-slate-100 bg-slate-50 hover:border-emerald-300 hover:shadow-sm transition-all group">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-slate-900 group-hover:text-emerald-700 transition line-clamp-1 min-w-0" title="{{ $match->item_name }}">{{ $match->item_name }}</h3>
+                                <span class="status-badge {{ $match->status === 'Lost' ? 'status-lost' : 'status-found' }} text-[10px] py-0.5 px-2 shrink-0">{{ $match->status }}</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mb-3 line-clamp-2" title="{{ $match->description }}">{{ $match->description }}</p>
+                            <div class="flex items-center gap-4 text-xs text-slate-500 mt-auto">
+                                <span class="flex items-center gap-1 min-w-0"><span class="material-symbols-outlined text-[14px]">location_on</span><span class="truncate">{{ $match->location }}</span></span>
+                                <span class="flex items-center gap-1 shrink-0"><span class="material-symbols-outlined text-[14px]">calendar_today</span>{{ $match->created_at->format('M d') }}</span>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </section>
+            @endif
         </div>
     </div>
 </section>
