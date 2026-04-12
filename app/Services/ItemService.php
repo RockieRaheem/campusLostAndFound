@@ -144,6 +144,51 @@ public function markItemClaimed(Item $item, ?string $claimantInfo = null): bool
     }
 
     /**
+     * Find potential matching items based on the item name and location.
+     * Searches for the opposite status (Lost <-> Found).
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function findPotentialMatches(Item $item)
+    {
+        if ($item->status === 'Claimed') {
+            return collect(); // No matches needed if already claimed
+        }
+
+        $targetStatus = $item->status === 'Lost' ? 'Found' : 'Lost';
+        
+        // Remove common stop words to get core keywords
+        $stopWords = ['a', 'an', 'the', 'my', 'lost', 'found', 'missing', 'i', 'in', 'at', 'on', 'with', 'some', 'is', 'was'];
+        $cleanName = str_replace(['(', ')', '-', ',', '.'], ' ', strtolower($item->item_name));
+        $words = array_diff(explode(' ', $cleanName), $stopWords);
+        $keywords = array_filter($words, fn($w) => strlen($w) > 2); // only words > 2 chars
+        
+        if (empty($keywords)) {
+            return collect();
+        }
+
+        $query = Item::query()
+            ->where('status', $targetStatus)
+            ->where('id', '!=', $item->id);
+
+        $query->where(function ($q) use ($keywords) {
+            foreach ($keywords as $keyword) {
+                // Search both name and description for matches
+                $q->orWhere('item_name', 'LIKE', "%{$keyword}%")
+                  ->orWhere('description', 'LIKE', "%{$keyword}%");
+            }
+        });
+
+        // Try to match items from the same location or nearby (optional but helpful)
+        if ($item->location) {
+            // We order by location match to bubble up the best correlations first
+            $query->orderByRaw('CASE WHEN location LIKE ? THEN 1 ELSE 2 END', ["%{$item->location}%"]);
+        }
+
+        return $query->latest()->take(3)->get();
+    }
+
+    /**
      * @param array<int, UploadedFile> $photos
      */
     private function storePhotosForItem(Item $item, array $photos): void

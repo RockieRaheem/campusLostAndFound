@@ -1,27 +1,25 @@
-# Prepare Final Submission Zipping Script
-Write-Host "Cleaning up the project for final submission..." -ForegroundColor Green
+﻿$regNo = Read-Host "Enter your Registration Number (e.g., JAN23BSE2177U)"
+$outDir = "..\$regNo"
 
-# 1. Clear Caches
-Write-Host "Clearing Laravel application caches..." -ForegroundColor Cyan
+Write-Host "Creating submission folder structure at $outDir..." -ForegroundColor Cyan
+New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+New-Item -ItemType Directory -Force -Path "$outDir\Screenshots" | Out-Null
+
+Write-Host "Copying source code to $outDir\Source_Code..." -ForegroundColor Cyan
+# Copy everything except node_modules, vendor, .git, and temporary files
+Copy-Item -Path . -Destination "$outDir\Source_Code" -Recurse -Exclude "node_modules", "vendor", ".git", ".vscode", "tests", "*.log", ".phpunit.cache", "artisan_test*", "test_results_*.txt", "prepare-submission.ps1", "strip_bom.ps1" -Force
+
+Write-Host "Running Laravel cleanup commands on the copied source code..." -ForegroundColor Cyan
+Push-Location "$outDir\Source_Code"
 php artisan optimize:clear
 php artisan view:clear
 php artisan route:clear
 php artisan config:clear
+Pop-Location
 
-# 2. Clear Logs
-Write-Host "Removing log files..." -ForegroundColor Cyan
-if (Test-Path "storage/logs/*.log") {
-    Remove-Item "storage/logs/*.log" -Force
-}
-
-# 3. Ask to remove vendor / node_modules
-$removeDeps = Read-Host "Do you want to strip /vendor and /node_modules to save space? (y/n)"
-if ($removeDeps -eq 'y') {
-    Write-Host "Removing vendor..." -ForegroundColor Blue
-    if (Test-Path "vendor") { Remove-Item -Recurse -Force "vendor" }
-    
-    Write-Host "Removing node_modules..." -ForegroundColor Blue
-    if (Test-Path "node_modules") { Remove-Item -Recurse -Force "node_modules" }
-}
-
-Write-Host "Cleanup complete! The folder is now ready to be zipped and sent to the lecturer." -ForegroundColor Green
+Write-Host "Submission package prepared at $outDir!" -ForegroundColor Green
+Write-Host "NEXT STEPS:" -ForegroundColor Yellow
+Write-Host "1. Complete your Final_Project_Report.pdf and place it in $outDir"
+Write-Host "2. Complete your Project_Presentation.pptx and place it in $outDir"
+Write-Host "3. Add at least 10 screenshots to $outDir\Screenshots"
+Write-Host "4. Zip the $outDir folder as $regNo.zip"

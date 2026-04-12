@@ -151,7 +151,8 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         $item->load('photos');
+        $potentialMatches = app(\App\Services\ItemService::class)->findPotentialMatches($item);
 
-        return view('items.show', compact('item'));
+        return view('items.show', compact('item', 'potentialMatches'));
     }
 }
