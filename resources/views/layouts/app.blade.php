@@ -49,6 +49,7 @@
 
                 <nav class="hidden items-center gap-6 md:flex">
                     <a href="{{ route('items.index') }}" class="text-sm font-semibold transition {{ request()->routeIs('items.index') ? 'text-primary' : 'text-slate-600 hover:text-primary' }}">Dashboard</a>
+                    <a href="{{ route('database.index') }}" class="text-sm font-semibold transition {{ request()->routeIs('database.index') ? 'text-primary' : 'text-slate-600 hover:text-primary' }}">Database UI</a>
                     @auth
                         <a href="{{ route('items.create') }}" class="text-sm font-semibold transition {{ request()->routeIs('items.create') ? 'text-primary' : 'text-slate-600 hover:text-primary' }}">Report Item</a>
                         

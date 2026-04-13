@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DatabaseDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::get('/', function() {
 })->name('home');
 
 Route::get('/items', [ItemController::class, 'index'])->name('items.index');
+Route::get('/database', [DatabaseDashboardController::class, 'index'])->name('database.index');
 
 Route::middleware('auth')->group(function () {
     // Show form to create new item
