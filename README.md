@@ -1,59 +1,192 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Campus Lost & Found Tracker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-stack Laravel application for reporting, tracking, and recovering lost or found items across a campus community.
 
-## About Laravel
+The system supports authenticated reporting, item lifecycle tracking (Lost -> Found -> Claimed), image uploads with background optimization, ownership-based authorization, and a local browser Database UI for inspecting records.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## System Highlights
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Secure user registration and login.
+- Dashboard with live statistics for total, Lost, Found, and Claimed items.
+- Search and status filtering across item name, description, and location.
+- Full item workflow: create, edit, claim, soft delete, and detail view.
+- Item detail page with smart potential-match suggestions (Lost vs Found correlation).
+- Up to 3 photos per item, validated and processed asynchronously into optimized WebP files.
+- Claim audit support using `claimed_at` and optional `claimant_info`.
+- Queued email notification to the reporting user when an item is marked as claimed.
+- Local-only Database UI to browse tables and preview rows.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Architecture
 
-## Learning Laravel
+- Pattern: MVC + Service Layer.
+- Controllers handle request/response flow.
+- `ItemService` centralizes business logic for dashboard queries, create/update/claim/delete, photo handling, and smart matching.
+- FormRequest classes (`StoreItemRequest`, `UpdateItemRequest`) encapsulate validation and post-validation checks.
+- `ItemPolicy` enforces ownership-based actions.
+- Queue jobs process heavy tasks in the background (`ProcessItemPhoto`, queued notifications).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Technology Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Backend: PHP 8.2+, Laravel 12.
+- Frontend: Blade templates, Tailwind CSS, Vite, Alpine.js.
+- Database: MySQL (current local setup), with SQLite/PostgreSQL compatibility in Laravel config.
+- Image processing: `intervention/image`.
+- Queue + Notifications: Laravel Queue and Notification system.
+- Testing: PHPUnit via `php artisan test`.
 
-## Laravel Sponsors
+## Data Model Overview
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Core tables:
 
-### Premium Partners
+- `users`: account records.
+- `items`: item metadata and workflow fields (`status`, `claimed_at`, `claimant_info`, `user_id`, soft deletes).
+- `item_photos`: photo paths with sort order and soft deletes.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Key relationships:
 
-## Contributing
+- One user has many items.
+- One item has many photos.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Status model:
 
-## Code of Conduct
+- Allowed statuses: `Lost`, `Found`, `Claimed`.
+- `claimed_at` is populated when status becomes `Claimed`.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Local Setup
 
-## Security Vulnerabilities
+### 1. Prerequisites
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- PHP 8.2 or newer.
+- Composer.
+- Node.js 18+ and npm.
+- MySQL server (XAMPP, Herd, Laragon, or standalone MySQL).
 
-## License
+### 2. Install Dependencies
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+composer install
+npm install
+```
+
+### 3. Environment Configuration
+
+Create your env file:
+
+```bash
+copy .env.example .env
+```
+
+Recommended MySQL configuration in `.env`:
+
+```env
+APP_ENV=local
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=campus_lostfound
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Then initialize the app:
+
+```bash
+php artisan key:generate
+php artisan migrate
+php artisan storage:link
+```
+
+## Running the Application
+
+### Option A: Composer dev script (best on macOS/Linux)
+
+```bash
+composer run dev
+```
+
+### Option B: Windows-friendly startup (without Pail/pcntl)
+
+Run these in separate terminals:
+
+```bash
+php artisan serve
+```
+
+```bash
+php artisan queue:listen --tries=1 --timeout=0
+```
+
+```bash
+npm run dev
+```
+
+App URL: `http://127.0.0.1:8000`
+
+## Database UI (Browser)
+
+Open:
+
+`http://127.0.0.1:8000/database`
+
+What it provides:
+
+- Connection metadata (driver, database, table count).
+- Table list with row and column counts.
+- Table data preview with adjustable row limits.
+
+Security note:
+
+- This page is intentionally restricted to local environment (`APP_ENV=local`).
+
+## Authorization Rules
+
+- Only the item owner can edit or delete an item.
+- Any authenticated user can claim an item that is not already claimed.
+- Public users can browse items and open item detail pages.
+
+## Validation Rules
+
+- `item_name`, `description`, `location`, and `status` are required.
+- Photo upload supports JPEG/JPG/PNG/WEBP.
+- Maximum 3 photos per item.
+- Maximum 10MB per photo.
+- Update validation ensures removed photo IDs belong to the current item.
+
+## Testing
+
+Run all tests:
+
+```bash
+php artisan test
+```
+
+Current suite covers:
+
+- Dashboard response.
+- Item creation.
+- Validation errors.
+- Soft-delete behavior.
+- Photo upload and photo replacement flow.
+
+## Useful Commands
+
+```bash
+php artisan migrate:status
+php artisan route:list --name=database
+php artisan tinker --execute="dump(DB::select('SHOW TABLES'));"
+```
+
+## Troubleshooting
+
+- If `composer run dev` fails on Windows due `pcntl`/Pail, use the Windows-friendly startup commands above.
+- If image URLs do not render, run `php artisan storage:link`.
+- If queued tasks are not processing, ensure a queue worker is running.
+- If `php artisan db:show` fails on some local MySQL setups, use the Database UI route (`/database`) or Tinker table inspection.
+
+## Project Identity
+
+- Project: Campus Lost & Found Tracker.
+- Developer: Kamwanga Rahiim.
+- Registration Number: JAN23/BSE/2177U.
