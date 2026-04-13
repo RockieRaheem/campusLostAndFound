@@ -10,6 +10,9 @@ class DatabaseDashboardController extends Controller
 {
     public function index(Request $request)
     {
+        $user = $request->user();
+
+        abort_unless($user && $user->isAdmin(), 403, 'Only administrators can access Database UI.');
         abort_unless(app()->environment('local'), 403, 'Database UI is available only in local environment.');
 
         $connection = DB::connection();

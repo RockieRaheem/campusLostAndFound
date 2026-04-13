@@ -56,6 +56,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Admin Emails
+    |--------------------------------------------------------------------------
+    |
+    | Comma-separated list of administrator emails allowed to access
+    | internal tools such as the Database UI.
+    |
+    */
+
+    'admin_emails' => array_values(array_filter(array_map(
+        'trim',
+        explode(',', (string) env('ADMIN_EMAILS', ''))
+    ))),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

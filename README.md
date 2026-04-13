@@ -14,7 +14,7 @@ The system supports authenticated reporting, item lifecycle tracking (Lost -> Fo
 - Up to 3 photos per item, validated and processed asynchronously into optimized WebP files.
 - Claim audit support using `claimed_at` and optional `claimant_info`.
 - Queued email notification to the reporting user when an item is marked as claimed.
-- Local-only Database UI to browse tables and preview rows.
+- Admin-only Database UI (local environment) to browse tables and preview rows.
 
 ## Architecture
 
@@ -88,6 +88,7 @@ DB_PORT=3306
 DB_DATABASE=campus_lostfound
 DB_USERNAME=root
 DB_PASSWORD=
+ADMIN_EMAILS=admin@example.com
 ```
 
 Then initialize the app:
@@ -138,7 +139,8 @@ What it provides:
 
 Security note:
 
-- This page is intentionally restricted to local environment (`APP_ENV=local`).
+- This page is restricted to local environment (`APP_ENV=local`) and admin users only.
+- Admin users are controlled by the comma-separated `ADMIN_EMAILS` setting in `.env`.
 
 ## Authorization Rules
 

@@ -31,9 +31,10 @@ Route::get('/', function() {
 })->name('home');
 
 Route::get('/items', [ItemController::class, 'index'])->name('items.index');
-Route::get('/database', [DatabaseDashboardController::class, 'index'])->name('database.index');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/database', [DatabaseDashboardController::class, 'index'])->name('database.index');
+
     // Show form to create new item
     Route::get('/create', [ItemController::class, 'create'])->name('items.create');
 

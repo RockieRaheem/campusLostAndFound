@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function isAdmin(): bool
+    {
+        $adminEmails = collect(config('app.admin_emails', []))
+            ->filter(fn ($email) => is_string($email) && trim($email) !== '')
+            ->map(fn (string $email): string => strtolower(trim($email)))
+            ->all();
+
+        return in_array(strtolower($this->email), $adminEmails, true);
+    }
 }
